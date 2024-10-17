@@ -7,7 +7,6 @@ This is a starter template for a Idea generation springboard. Follow the steps b
 
 - [Overview](#overview)
 - [Technologies](#technologies)
-- [Team Setup](#team-setup)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Project Structure](#project-structure)
@@ -25,14 +24,6 @@ This template provides a basic setup for a MERN stack project with a remote Mong
 - **Backend**: Node.js, Express
 - **Database**: MongoDB (hosted on MongoDB Atlas)
 - **Version Control**: Git
-
-## Team Setup
-
-This template is ideal for a team of 3 developers. Each team member can work on different parts of the project, such as:
-
-1. **Frontend Developer**: Works on the React application.
-2. **Backend Developer**: Manages the Node.js/Express server and APIs.
-3. **Database Manager**: Configures and manages MongoDB on MongoDB Atlas.
 
 ## Prerequisites
 
