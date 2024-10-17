@@ -52,7 +52,7 @@ Follow these steps to set up the project locally:
 Each team member should clone the repository:
 
 ```bash
-git clone https://github.com/your-team/mern-starter-template.git
+git clone https://github.com/Abhay-Narayan/Idea-Generation.git
 cd mern-starter-template
 ```
 
