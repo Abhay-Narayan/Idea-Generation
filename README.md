@@ -53,7 +53,7 @@ Each team member should clone the repository:
 
 ```bash
 git clone https://github.com/Abhay-Narayan/Idea-Generation.git
-cd mern-starter-template
+cd Idea-Generation
 ```
 
 ### 2. Install dependencies
