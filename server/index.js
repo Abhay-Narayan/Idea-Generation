@@ -1,14 +1,22 @@
-import express from 'express';
+import express from "express";
+import mongoose from "mongoose";
+import connect from "./db.js";
+import dotenv from "dotenv";
+import authController from "./controllers/authController.js";
 
-const app=express();
+dotenv.config();
+mongoose.set("strictQuery", false);
+connect();
+
+
+const app = express();
 app.use(express.json());
-const PORT=4578;
+app.use(express.urlencoded({ extended: true }));
 
 
-app.use('/',(req,res)=>{
-    res.send('hello world!');
-})
+app.use("/auth", authController);
 
-app.listen(PORT,()=>{
-    console.log('app listening on port');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
