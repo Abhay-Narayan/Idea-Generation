@@ -82,7 +82,7 @@ mongodb+srv://<username>:<password>@cluster0.mongodb.net/myDatabase?retryWrites=
 In the `server` directory, create a `.env` file and add the following variables:
 
 ```plaintext
-PORT=5000
+PORT=4000
 MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/myDatabase?retryWrites=true&w=majority
 JWT_SECRET=<your_jwt_secret>
 ```
@@ -96,16 +96,16 @@ Start both the backend and frontend servers.
 #### Backend
 ```bash
 cd server
-npm run dev
+node index.js
 ```
 
 #### Frontend
 ```bash
 cd ../client
-npm start
+npm run dev
 ```
 
-The backend will run on `http://localhost:5000`, and the frontend will run on `http://localhost:3000`.
+The backend will run on `http://localhost:4000`, and the frontend will run on `http://localhost:3000`.
 
 ## Project Structure
 
