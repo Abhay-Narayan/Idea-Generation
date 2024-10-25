@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authController from "./controllers/authController.js";
 import blogController from "./controllers/blogController.js";
 import chatController from "./controllers/chatController.js";
+import userController from "./controllers/userController.js"
 
 dotenv.config();
 mongoose.set("strictQuery", false);
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authController);
 app.use("/blog",blogController);
 app.use("/bot",chatController);
+app.use("/user", userController);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
