@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { assets } from "../assets/assets/";
 
 const LoginSignup = () => {
@@ -22,11 +22,11 @@ const LoginSignup = () => {
         <img
           src={assets.login_cover}
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-lg"
         />
       </div>
 
-      <div className="w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20 justify-between items-center">
+      <div className="w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20 justify-center items-center">
         <div className="w-full flex flex-col max-w-[400px] ">
           <div className="w-full flex-col mb-2">
             <h3 className="text-2xl font-semibold mb-2">{action}</h3>
@@ -44,20 +44,20 @@ const LoginSignup = () => {
               <input
                 type="text"
                 placeholder="Name"
-                className="w-full border-2 text-lg border-gray-100 rounded-xl p-4 mt-1"
+                className="w-full border-2 text-base border-gray-100 rounded-xl p-3 mt-1 outline-none"
               />
             )}
 
             <input
               type="email"
               placeholder="Email"
-              className="w-full border-2 text-lg border-gray-100 rounded-xl p-4 mt-1"
+              className="w-full border-2 text-base border-gray-100 rounded-xl p-3 mt-1 outline-none"
             />
 
             <input
               type="password"
               placeholder="Password"
-              className="w-full border-2 text-lg border-gray-100 rounded-xl p-4 mt-1"
+              className="w-full border-2 text-base border-gray-100 rounded-xl p-3 mt-1 outline-none"
             />
           </div>
 
@@ -73,16 +73,16 @@ const LoginSignup = () => {
           </div>
 
           <div className="w-full flex flex-col my-4">
-            <button className="active:scale-[.98] w-full bg-main my-2 font-semibold text-white text-lg rounded-xl p-4 text-center flex items-center justify-center cursor-pointer">
+            <button className="active:scale-[.98] w-full bg-main my-2 font-semibold text-white text-lg rounded-xl p-2.5 text-center flex items-center justify-center cursor-pointer">
               {action}
             </button>
           </div>
 
-          <div className="w-full flex items-center justify-center relative py-2">
+          <div className="w-full flex items-center justify-center relative px-1 py-2">
             <div className="w-full h-[1px] bg-black/40"></div>
             <p className="text-base absolute text-black/80 bg-[#f5f5f5]">or</p>
           </div>
-          <button className="active:scale-[.98] w-full text-[#060606] my-5 bg-white border-2 text-lg border-black/40 rounded-xl p-3.5 text-center flex items-center justify-center cursor-pointer">
+          <button className="active:scale-[.98] w-full text-[#060606] my-5 bg-white border text-lg border-black/40 rounded-xl p-2 text-center flex items-center justify-center cursor-pointer">
             <img src={assets.google_logo} className="h-8 mr-2" alt="" />{" "}
             Continue with Google
           </button>

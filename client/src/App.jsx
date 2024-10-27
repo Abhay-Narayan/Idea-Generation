@@ -5,7 +5,7 @@ import LoginSignup from "./components/LoginSignup"
 
 function App() {
   return (
-    <div className="bg-main font-medium w-full ">
+    <div className=" font-medium w-full ">
       <Hero />
       <Features />
       <PopularHero />

@@ -2,7 +2,7 @@
 
 const Hero = () => {
   return (
-    <div className="hero flex h-screen items-center justify-center mx-auto w-full text-white">
+    <div className="bg-main hero flex h-screen items-center justify-center mx-auto w-full text-white">
       <div className="flex flex-col justify-center w-[45%] gap-6">
         <h1 className="font-bold text-5xl leading-snug">Empower Your Ideas<br/> with AI-Driven Project Guidance </h1>
         <p className="text-lg font-light w-[90%]">Whether you&apos;re an aspiring developer or an experienced professional, our AI-powered platform helps you craft and shape your ideas with personalized insights, implementation tips, and business-focused summaries. Share your journey, engage with others, and watch your concepts come to life.</p>
