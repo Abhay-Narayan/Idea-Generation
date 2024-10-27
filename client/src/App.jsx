@@ -1,8 +1,13 @@
-import LoginSignup from "./Components/LoginSignup";
+import Features from "./components/Features";
+import Hero from "./components/Hero";
+import PopularHero from "./components/PopularHero";
 
 function App() {
   return (
-    <div className="bg-main font-medium text-2xl h-screen w-full text-center">
+    <div className="bg-main font-medium w-full ">
+      <Hero />
+      <Features />
+      <PopularHero />
       <LoginSignup />
     </div>
   );
