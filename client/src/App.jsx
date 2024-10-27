@@ -1,6 +1,7 @@
 import Features from "./components/Features";
 import Hero from "./components/Hero";
 import PopularHero from "./components/PopularHero";
+import LoginSignup from "./components/LoginSignup"
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Hero />
       <Features />
       <PopularHero />
-      <LoginSignup />
+      <LoginSignup/>
     </div>
   );
 }
