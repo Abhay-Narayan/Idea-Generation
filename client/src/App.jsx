@@ -1,7 +1,7 @@
-import Features from "./components-temp/Features";
-import Hero from "./components-temp/Hero";
-import PopularHero from "./components-temp/PopularHero";
-import LoginSignup from "./components-temp/LoginSignup"
+import Features from "./components/Features";
+import Hero from "./components/Hero";
+import PopularHero from "./components/PopularHero";
+import LoginSignup from "./components/LoginSignup"
 
 function App() {
   return (
