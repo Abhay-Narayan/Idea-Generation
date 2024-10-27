@@ -6,7 +6,7 @@ import PopularHero from "./components/PopularHero"
 
 function App() {
   return (
-    <div className="bg-main font-medium text-2xl w-full ">
+    <div className="bg-main font-medium w-full ">
      <Hero/>
      <Features/>
      <PopularHero/>
