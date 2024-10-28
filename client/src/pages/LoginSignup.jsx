@@ -73,7 +73,7 @@ const LoginSignup = () => {
           </div>
 
           <div className="w-full flex flex-col my-4">
-            <button className="active:scale-[.98] w-full bg-main my-2 font-semibold text-white text-lg rounded-xl p-2.5 text-center flex items-center justify-center cursor-pointer">
+            <button className="active:scale-[.98] w-full bg-main my-2 text-white text-lg rounded-xl p-2.5 text-center flex items-center justify-center cursor-pointer">
               {action}
             </button>
           </div>

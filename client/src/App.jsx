@@ -1,16 +1,13 @@
-import Features from "./components/Features";
-import Hero from "./components/Hero";
-import PopularHero from "./components/PopularHero";
-import LoginSignup from "./components/LoginSignup"
+import Home from "./pages/Home";
+import LoginSignup from "./pages/LoginSignup"
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className=" font-medium w-full ">
-      <Hero />
-      <Features />
-      <PopularHero />
-      <LoginSignup/>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/auth" element={<LoginSignup/>}/>
+    </Routes>
   );
 }
 
