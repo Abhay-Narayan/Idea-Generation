@@ -1,5 +1,4 @@
-```markdown
-# MERN Stack Starter Template
+
 
 This is a starter template for a Idea generation springboard. Follow the steps below to set it up locally with a remote MongoDB database.
 
@@ -105,7 +104,7 @@ cd ../client
 npm run dev
 ```
 
-The backend will run on `http://localhost:4000`, and the frontend will run on `http://localhost:3000`.
+The backend will run on `http://localhost:4000`, and the frontend will run on `http://localhost:5173`.
 
 ## Project Structure
 
@@ -132,16 +131,17 @@ mern-starter-template/
 
 Once the backend and frontend are running, access the application at:
 
-- **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:5000`
+- **Frontend**: `http://localhost:5173`
+- **Backend API**: `http://localhost:4000`
 
 ## Environment Variables
 
 Configure the following environment variables in the `.env` file in the `server` folder:
 
-- **PORT**: The port for the backend server (default: `5000`)
+- **PORT**: The port for the backend server (default: `4000`)
 - **MONGO_URI**: Your MongoDB Atlas connection string.
 - **JWT_SECRET**: A secret key for JWT authentication.
+- - **GOOGLE_API**: A secret key for gemini.
 
 ## Contributing
 
