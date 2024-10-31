@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { assets } from "../assets/assets/";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,35 +7,36 @@ import { login } from "../redux/authSlice";
 
 const LoginSignup = () => {
   const [action, setAction] = useState("Login");
-  const [email,setEmail]=useState('');
-  const [password,setPassword]=useState('');
-  const [username,setUsername]=useState('');
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleAction = () => {
     setAction((prevAction) => (prevAction === "Login" ? "Sign up" : "Login"));
   };
 
-  const handleaction=async(e)=>{
+  const handleaction = async (e) => {
     e.preventDefault();
-    if(action=="Login"){
+    if (action == "Login") {
       try {
-        const response=await axios.post('http://localhost:4000/auth/login',{email,password});
-        const token= response.data.token;
-        if(token){
+        const response = await axios.post("http://localhost:4000/auth/login", {
+          email,
+          password,
+        });
+        const token = response.data.token;
+        if (token) {
           dispatch(login(token));
-          localStorage.setItem('token',token);
-          navigate('/');
-        }
-        else{
+          localStorage.setItem("token", token);
+          navigate("/");
+        } else {
           console.error("Authentication failed");
         }
       } catch (error) {
         console.error("Login error:", error);
       }
-    }
-    else{
+    } else {
       try {
         const response = await axios.post('http://localhost:4000/auth/register', {
           username,
@@ -45,16 +46,16 @@ const LoginSignup = () => {
       const token = response.data.token;
       if (token) {
           dispatch(login(token));
-          localStorage.setItem('token', token);
-          navigate('/'); // Redirect to the home page after signup
-      } else {
+          localStorage.setItem("token", token);
+          navigate("/"); // Redirect to the home page after signup
+        } else {
           console.error("Signup failed");
-      }
+        }
       } catch (error) {
         console.error("Signup error:", error);
       }
     }
-  }
+  };
 
   return (
     <div className="w-full h-screen flex items-start">
@@ -91,8 +92,8 @@ const LoginSignup = () => {
             ) : (
               <input
                 type="text"
-                placeholder="Userame"
-                onChange={(e)=>setUsername(e.target.value)}
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full border-2 text-base border-gray-100 rounded-xl p-3 mt-1 outline-none"
               />
             )}
@@ -100,14 +101,14 @@ const LoginSignup = () => {
             <input
               type="email"
               placeholder="Email"
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border-2 text-base border-gray-100 rounded-xl p-3 mt-1 outline-none"
             />
 
             <input
               type="password"
               placeholder="Password"
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border-2 text-base border-gray-100 rounded-xl p-3 mt-1 outline-none"
             />
           </div>
@@ -124,7 +125,10 @@ const LoginSignup = () => {
           </div>
 
           <div className="w-full flex flex-col my-4">
-            <button onClick={handleaction} className="active:scale-[.98] w-full bg-main my-2 text-white text-lg rounded-xl p-2.5 text-center flex items-center justify-center cursor-pointer">
+            <button
+              onClick={handleaction}
+              className="active:scale-[.98] w-full bg-main my-2 text-white text-lg rounded-xl p-2.5 text-center flex items-center justify-center cursor-pointer"
+            >
               {action}
             </button>
           </div>
