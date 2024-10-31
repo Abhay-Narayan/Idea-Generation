@@ -1,17 +1,26 @@
-import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/authSlice";
 
 const Header = () => {
+  const isAuthenticated= useSelector((state)=>state.auth.isAuthenticated);
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const handleauth=()=>{
+    if(!isAuthenticated)navigate('/auth');
+    else{
+      dispatch(logout());
+    }
+  }
+
   return (
-    <header className="flex justify-between items-center p-4 bg-white shadow-md">
-      <div className="text-2xl font-bold">
-        <a href="/" className="text-purple-700 no-underline hover:underline">Idea Generation</a>
+    <header className="fixed w-full z-50 flex justify-around items-center p-2 gap-80 bg-[#ffffff] shadow-lg">
+      <div className="text-3xl font-bold">
+        <a href="/" className=" no-underline hover:underline">Kreativ</a>
       </div>
-      <nav className="flex gap-5">
-        <a href="/about" className="text-gray-800 no-underline font-medium hover:text-purple-700">About</a>
-        <a href="/blog" className="text-gray-800 no-underline font-medium hover:text-purple-700">Blogs</a>
-        <a href="/search" className="text-gray-800 no-underline font-medium hover:text-purple-700">Search</a>
-        <a href="/contact" className="text-gray-800 no-underline font-medium hover:text-purple-700">Contact Us</a>
-        <a href="/login" className="bg-purple-700 text-white px-3 py-1 rounded font-medium no-underline hover:bg-purple-800">Login</a>
+      <nav className="flex gap-10 justify-center text-base ">
+        <a href="/blog" className=" no-underline flex items-center  hover:text-main">Blogs</a>
+        <button onClick={handleauth} className="bg-main text-white items-center py-2 px-3  rounded  no-underline hover:bg-purple-800">{isAuthenticated?"Logout":"Login"  }</button>
       </nav>
     </header>
   );
