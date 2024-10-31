@@ -64,7 +64,7 @@ const Chatbot = () => {
 
   return (
     <div className="h-screen w-full bg-gray-200 flex">
-      <div className="w-[18%] h-[95%] border rounded-2xl bg-gray-100 p-4 m-4">
+      <div className="w-[18%] h-[89.5%] border rounded-2xl bg-gray-100 p-4 mx-4 my-16">
         <div className="h-[5%]">
           <button className="bg-main text-white w-full h-[50px] border border-gray-400 rounded-lg flex justify-center items-center hover:bg-hovermain active:scale-[.98] ">
             <span className="text-3xl mr-2">+</span> New Project
@@ -146,7 +146,7 @@ const Chatbot = () => {
           </div>
         </div>
       </div>
-      <div className="h-full w-[20%] flex flex-col">
+      <div className="h-[90%] w-[20%] flex flex-col my-12">
         <Profile />
         <div className="flex flex-col items-center border rounded-2xl bg-gray-100 p-4 m-4">
           <div className="flex flex-col">
