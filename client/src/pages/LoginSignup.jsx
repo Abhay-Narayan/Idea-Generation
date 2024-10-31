@@ -38,16 +38,13 @@ const LoginSignup = () => {
       }
     } else {
       try {
-        const response = await axios.post(
-          "http://localhost:4000/auth/resgister",
-          {
-            username,
-            email,
-            password,
-          }
-        );
-        const token = response.data.token;
-        if (token) {
+        const response = await axios.post('http://localhost:4000/auth/register', {
+          username,
+          email,
+          password,
+      });
+      const token = response.data.token;
+      if (token) {
           dispatch(login(token));
           localStorage.setItem("token", token);
           navigate("/"); // Redirect to the home page after signup
