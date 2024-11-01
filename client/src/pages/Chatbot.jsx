@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react"; // Import useRef
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
+import { assets } from "../assets/assets";
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -210,7 +211,9 @@ const Chatbot = () => {
             ))
           ) : (
             <div className="h-[80%] flex flex-col justify-center items-center rounded-lg  p-6">
-              <div className="text-3xl font-bold text-main mb-6">Kreativ</div>
+              <div className="text-3xl font-bold text-main mb-6">
+                <img className="h-20" src={assets.logo} alt="logo" />
+              </div>
               <div className="flex flex-wrap justify-center max-w-[900px]">
                 {examples.map((item, index) => (
                   <div
