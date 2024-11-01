@@ -7,6 +7,7 @@ import Chatbot from "./pages/Chatbot";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { login } from "./redux/authSlice";
+import Protected from "./constants/Protected";
 
 function App() {
   const location = useLocation();
@@ -28,7 +29,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<LoginSignup />} />
-        <Route path="/chat" element={<Chatbot />} />
+        <Route path="/chat" element={
+            <Protected>
+              <Chatbot />
+            </Protected>
+          } />
       </Routes>
       {!hideFooter && <Footer />} {/* Hide footer on /auth and /chat */}
     </div>
