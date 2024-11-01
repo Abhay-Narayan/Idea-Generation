@@ -54,7 +54,7 @@ chatController.post("/chat", verifyToken, async (req, res) => {
       );
     }
 
-    res.status(201).send(savedChat);
+    res.status(201).send({assistantResponse, chatId:savedChat._id});
   } catch (err) {
     console.error(err);
     res.status(500).send("Error creating chat!");
@@ -81,7 +81,7 @@ chatController.post("/chat/:chatId", verifyToken, async (req, res) => {
     });
     const updatedChat = await chatHistory.save();
 
-    res.status(200).json(updatedChat);
+    res.status(200).json({ assistantResponse, chatId: updatedChat._id});
   } catch (err) {
     console.error(err);
     res.status(500).send("Error continuing chat!");
@@ -127,7 +127,7 @@ chatController.get("/getUserchats", verifyToken, async (req, res) => {
     }
     const chatData = userchats.chats.map((chat) => ({
       title: chat.title,
-      chatId: chat._id,
+      chatId: chat.chatId._id,
     }));
     return res.status(200).json({ chat: chatData });
   } catch (error) {

@@ -21,14 +21,19 @@ const LoginSignup = () => {
     e.preventDefault();
     if (action == "Login") {
       try {
-        const response = await axios.post("http://localhost:4000/auth/login", {
-          email,
-          password,
-        });
-        const token = response.data.token;
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/auth/login`,
+          {
+            email,
+            password,
+          }
+        );
+        const { token, user } = response.data;
+        console.log(response.data.user);
         if (token) {
-          dispatch(login(token));
+          dispatch(login({ token, user }));
           localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
           navigate("/");
         } else {
           console.error("Authentication failed");
@@ -39,16 +44,16 @@ const LoginSignup = () => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:4000/auth/register",
+          `${import.meta.env.VITE_BASE_URL}/auth/register`,
           {
             username,
             email,
             password,
           }
         );
-        const token = response.data.token;
+        const { token, user } = response.data;
         if (token) {
-          dispatch(login(token));
+          dispatch(login({ token, user }));
           localStorage.setItem("token", token);
           navigate("/"); // Redirect to the home page after signup
         } else {
