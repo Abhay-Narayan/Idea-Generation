@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react"; // Import useRef
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
+import { assets } from "../assets/assets";
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -99,25 +100,25 @@ const Chatbot = () => {
     }
   }, [chat]);
   const examples = [
-  {
-    text: "How to center a div in CSS? 🌐",
-  },
-  {
-    text: "JavaScript array methods explained 🧑‍💻",
-  },
-  {
-    text: "Best practices for React state management 📦",
-  },
-  {
-    text: "How does MERN stack work? ⚙️",
-  },
-  {
-    text: "Tailwind CSS vs. Bootstrap: Which to choose? 🎨",
-  },
-  {
-    text: "Redux Toolkit tutorial 📚",
-  },
-];
+    {
+      text: "How to center a div in CSS? 🌐",
+    },
+    {
+      text: "JavaScript array methods explained 🧑‍💻",
+    },
+    {
+      text: "Best practices for React state management 📦",
+    },
+    {
+      text: "How does MERN stack work? ⚙️",
+    },
+    {
+      text: "Tailwind CSS vs. Bootstrap: Which to choose? 🎨",
+    },
+    {
+      text: "Redux Toolkit tutorial 📚",
+    },
+  ];
 
   const getsingleChat = async (id) => {
     setChatid(id);
@@ -133,8 +134,8 @@ const Chatbot = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handlesendmessage(); 
+    if (event.key === "Enter") {
+      handlesendmessage();
     }
   };
 
@@ -198,14 +199,21 @@ const Chatbot = () => {
                   {item.role === "user" ? <LuUser /> : <BsRobot />}
                 </span>
                 <div className="leading-loose overflow-hidden">
-                <Markdown content={item.text && item.text.text ? item.text.text : "No text available"} />
-                  
+                  <Markdown
+                    content={
+                      item.text && item.text.text
+                        ? item.text.text
+                        : "No text available"
+                    }
+                  />
                 </div>
               </div>
             ))
           ) : (
             <div className="h-[80%] flex flex-col justify-center items-center rounded-lg  p-6">
-              <div className="text-3xl font-bold text-main mb-6">Kreativ</div>
+              <div className="text-3xl font-bold text-main mb-6">
+                <img className="h-20" src={assets.logo} alt="logo" />
+              </div>
               <div className="flex flex-wrap justify-center max-w-[900px]">
                 {examples.map((item, index) => (
                   <div

@@ -11,8 +11,9 @@ import Protected from "./constants/Protected";
 
 function App() {
   const location = useLocation();
-  const hideHeader = location.pathname === '/auth';
-  const hideFooter = location.pathname === '/auth' || location.pathname === '/chat';
+  const hideHeader = location.pathname === "/auth";
+  const hideFooter =
+    location.pathname === "/auth" || location.pathname === "/chat";
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function App() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (token && user) {
-      dispatch(login({ token, user })); 
+      dispatch(login({ token, user }));
     }
   }, [dispatch]);
   return (
@@ -29,16 +30,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<LoginSignup />} />
-        <Route path="/chat" element={
+        <Route
+          path="/chat"
+          element={
             <Protected>
               <Chatbot />
             </Protected>
-          } />
+          }
+        />
       </Routes>
       {!hideFooter && <Footer />} {/* Hide footer on /auth and /chat */}
     </div>
   );
 }
-
 
 export default App;

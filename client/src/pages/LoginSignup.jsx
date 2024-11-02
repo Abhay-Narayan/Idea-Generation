@@ -21,14 +21,17 @@ const LoginSignup = () => {
     e.preventDefault();
     if (action == "Login") {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
-          email,
-          password,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/auth/login`,
+          {
+            email,
+            password,
+          }
+        );
         const { token, user } = response.data;
         console.log(response.data.user);
         if (token) {
-          dispatch(login({token,user}));
+          dispatch(login({ token, user }));
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/");
@@ -40,14 +43,17 @@ const LoginSignup = () => {
       }
     } else {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register`, {
-          username,
-          email,
-          password,
-      });
-      const { token, user } = response.data;
-      if (token) {
-          dispatch(login({token,user}));
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/auth/register`,
+          {
+            username,
+            email,
+            password,
+          }
+        );
+        const { token, user } = response.data;
+        if (token) {
+          dispatch(login({ token, user }));
           localStorage.setItem("token", token);
           navigate("/"); // Redirect to the home page after signup
         } else {
