@@ -14,6 +14,7 @@ import { useEffect, useState, useRef } from "react"; // Import useRef
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
+import {ThreeDots} from 'react-loader-spinner'
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -23,8 +24,10 @@ const Chatbot = () => {
   const [showContextMenu, setShowContextMenu] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [loading, setLoading]=useState(false);
   const chatContainerRef = useRef(null); // Create a ref for the chat container
   const contextMenuRef = useRef(null); // Ref for outside click detection
+
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -68,6 +71,7 @@ const Chatbot = () => {
     }
 
     try {
+      setLoading(true);
       let response;
       if (chatid) {
         response = await axiosInstance.post(`/bot/chat/${chatid}`, {
@@ -97,6 +101,7 @@ const Chatbot = () => {
         error.response ? error.response.data : error.message
       );
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -119,6 +124,7 @@ const Chatbot = () => {
       );
       setShowContextMenu(null); // Close the menu
       setActiveChatId(null); // Reset active chat when deleting
+      setChatid(null)
     } catch (error) {
       console.error(
         "Error deleting chat:",
@@ -269,7 +275,7 @@ const Chatbot = () => {
       </div>
 
       {/* Chat Area */}
-      <div className="w-[62%] flex flex-col items-center justify-center">
+      <div className="w-[62%] flex flex-col items-center justify-center relative">
         <div
           className="h-[80%] w-[98%] overflow-y-scroll hide-scroll-bar pt-4 flex flex-col"
           ref={chatContainerRef}
@@ -280,7 +286,7 @@ const Chatbot = () => {
                 key={index}
                 className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[78%]"
+                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[77.6%]"
                     : "bg-white rounded-lg max-w-[65%] self-end mr-[11%] flex-row-reverse"
                 }`}
               >
@@ -318,6 +324,21 @@ const Chatbot = () => {
                 ))}
               </div>
             </div>
+          )}
+          {loading && (
+            <div className="absolute bottom-[14%] right-[48%] z-10">
+              <ThreeDots
+              visible={true}
+              height="60"
+              width="60"
+              color="purple"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              />
+            </div>
+            
           )}
         </div>
 
