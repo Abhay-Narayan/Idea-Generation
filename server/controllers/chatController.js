@@ -145,4 +145,19 @@ chatController.get("/getsingle/:id", verifyToken, async (req, res) => {
   }
 });
 
+chatController.put("/updateusertitle/:userId/:chatId",verifyToken,async(req,res)=>{
+  try {
+    const { userId, chatId } = req.params;
+    const { newTitle } = req.body;
+    const userChat = await UserChat.findOne({ userId });
+    const chatToUpdate = userChat.chats.find(chat => chat.chatId.toString() === chatId);
+    chatToUpdate.title = newTitle;
+    await userChat.save();
+    return res.status(200).json({ msg: "Chat title updated successfully", userChat });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Server error" });
+  }
+})
+
 export default chatController;
