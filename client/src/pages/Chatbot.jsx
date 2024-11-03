@@ -29,9 +29,12 @@ const Chatbot = () => {
   const [showRenamePopup, setShowRenamePopup] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [originalTitle, setOriginalTitle] = useState("");
+  const [titleid, setTitleId]=useState(null);
   const chatContainerRef = useRef(null); // Create a ref for the chat container
   const contextMenuRef = useRef(null); // Ref for outside click detection
+  const [updatechat,setupdatechat]=useState(false);
 
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   useEffect(() => {
     const fetchChats = async () => {
       try {
@@ -42,7 +45,7 @@ const Chatbot = () => {
       }
     };
     fetchChats();
-  }, [chatid]);
+  }, [chatid, updatechat]);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -121,6 +124,7 @@ const Chatbot = () => {
     setNewTitle(title);
     setOriginalTitle(title);
     setActiveChatId(id);
+    setTitleId(id);
   };
 
   const handleCancelRename = () => {
@@ -201,13 +205,12 @@ const Chatbot = () => {
     },
   ];
 
-  const getsingleChat = async (id) => {
+  const getsingleChat =  (id) => {
     setChatid(id);
     setMessage("");
     setActiveChatId(id);
   };
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const handlenewproject = () => {
     setChat([]); // Clear the current chat history
@@ -220,6 +223,18 @@ const Chatbot = () => {
       handlesendmessage();
     }
   };
+
+  const handleRenameSave= async()=>{
+    try {
+      const response= await axiosInstance.put(`/bot/updateusertitle/${user._id}/${titleid}`,{newTitle:newTitle});
+      setShowRenamePopup(false);
+      setShowContextMenu(false);
+      setupdatechat(!updatechat);
+      if(response)toast.success(response.data.msg);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="h-[90vh] w-full bg-gray-100 flex ">
@@ -320,7 +335,7 @@ const Chatbot = () => {
               >
                 Cancel
               </button>
-              <button className="bg-main text-white py-2 px-4 rounded hover:bg-hovermain">
+              <button onClick={handleRenameSave} className="bg-main text-white py-2 px-4 rounded hover:bg-hovermain">
                 Rename
               </button>
             </div>
