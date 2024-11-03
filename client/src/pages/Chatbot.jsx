@@ -7,6 +7,7 @@ import { MdOutlinePublish } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
 import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { LuPencil } from "react-icons/lu";
 import Profile from "../Components/Profile";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react"; // Import useRef
@@ -234,17 +235,24 @@ const Chatbot = () => {
                   <div
                     ref={contextMenuRef}
                     style={{ top: popupPosition.top, left: popupPosition.left }}
-                    className="fixed bg-white border border-gray-300 shadow-lg rounded-lg p-2 w-32 z-50"
+                    className="fixed bg-white border border-gray-300 shadow-lg rounded-2xl p-2 w-32 z-50"
                   >
                     <button
                       onClick={() => handleDeleteChat(item.chatId)}
-                      className="w-full text-left font-medium flex items-center justify-center text-red-500 p-1 hover:bg-gray-100 rounded-lg"
+                      className="w-full text-left font-medium flex items-center justify-start text-red-500 p-2 hover:bg-gray-100 rounded-lg"
                     >
                       {" "}
-                      <span className=" text-lg mr-2">
+                      <span className=" text-lg mr-1.5">
                         <RiDeleteBinLine />
                       </span>
                       Delete
+                    </button>
+                    <button className="w-full text-left font-medium flex items-center justify-start p-2 hover:bg-gray-100 rounded-lg">
+                      {" "}
+                      <span className=" text-base mr-2">
+                        <LuPencil />
+                      </span>
+                      Rename
                     </button>
                   </div>
                 )}
