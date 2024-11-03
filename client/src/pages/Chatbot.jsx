@@ -21,6 +21,7 @@ const Chatbot = () => {
   const [message, setMessage] = useState("");
   const [showContextMenu, setShowContextMenu] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const chatContainerRef = useRef(null); // Create a ref for the chat container
   const contextMenuRef = useRef(null); // Ref for outside click detection
 
@@ -133,9 +134,14 @@ const Chatbot = () => {
     }
   };
 
-  const handleContextMenuClick = (id) => {
+  const handleContextMenuClick = (id, event) => {
     setShowContextMenu(id);
-    setActiveChatId(id); // Set the active chat ID when context menu is shown
+    setActiveChatId(id);
+    const buttonRect = event.currentTarget.getBoundingClientRect();
+    setPopupPosition({
+      top: buttonRect.top + window.scrollY + buttonRect.height,
+      left: buttonRect.left + window.scrollX,
+    });
   };
 
   useEffect(() => {
@@ -215,7 +221,7 @@ const Chatbot = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowContextMenu(item.chatId);
-                      handleContextMenuClick(item.chatId);
+                      handleContextMenuClick(item.chatId, e);
                     }}
                     className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
                   >
@@ -227,7 +233,8 @@ const Chatbot = () => {
                 {showContextMenu === item.chatId && (
                   <div
                     ref={contextMenuRef}
-                    className="absolute right-0 top-full mt-1 bg-white border border-gray-300 shadow-lg rounded-lg p-2 w-32 z-10"
+                    style={{ top: popupPosition.top, left: popupPosition.left }}
+                    className="fixed bg-white border border-gray-300 shadow-lg rounded-lg p-2 w-32 z-50"
                   >
                     <button
                       onClick={() => handleDeleteChat(item.chatId)}
@@ -265,8 +272,8 @@ const Chatbot = () => {
                 key={index}
                 className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[10.5%] self-start max-w-[79%]"
-                    : "bg-white rounded-lg max-w-[69%] self-end mr-[10.5%] flex-row-reverse"
+                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[78%]"
+                    : "bg-white rounded-lg max-w-[65%] self-end mr-[11%] flex-row-reverse"
                 }`}
               >
                 <span
