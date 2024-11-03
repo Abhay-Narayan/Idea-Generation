@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
-
+import toast, { Toaster } from 'react-hot-toast';
 const LoginSignup = () => {
   const [action, setAction] = useState("Login");
   const [email, setEmail] = useState("");
@@ -37,9 +37,10 @@ const LoginSignup = () => {
           navigate("/");
         } else {
           console.error("Authentication failed");
+          
         }
       } catch (error) {
-        console.error("Login error:", error);
+        toast.error('Invalid credentials');
       }
     } else {
       try {
@@ -67,6 +68,10 @@ const LoginSignup = () => {
 
   return (
     <div className="w-full h-screen flex items-start">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <div className="relative w-1/2 h-full flex flex-col">
         <div className="absolute top-[20%] left-[10%] flex flex-col">
           <h1 className="text-3xl text-white font-bold my-4">

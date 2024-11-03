@@ -14,7 +14,9 @@ import { useEffect, useState, useRef, useCallback } from "react"; // Import useR
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
-import {ThreeDots} from 'react-loader-spinner'
+import { ThreeDots } from "react-loader-spinner";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -24,10 +26,9 @@ const Chatbot = () => {
   const [showContextMenu, setShowContextMenu] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [loading, setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   const chatContainerRef = useRef(null); // Create a ref for the chat container
   const contextMenuRef = useRef(null); // Ref for outside click detection
-
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -124,7 +125,8 @@ const Chatbot = () => {
       );
       setShowContextMenu(null); // Close the menu
       setActiveChatId(null); // Reset active chat when deleting
-      setChatid(null)
+      setChatid(null);
+      toast.success('Successfully Deleted')
     } catch (error) {
       console.error(
         "Error deleting chat:",
@@ -134,13 +136,19 @@ const Chatbot = () => {
     }
   };
 
-  const handleOutsideClick = useCallback((e) => {
-    if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
-      setShowContextMenu(null);
-      setActiveChatId(null);
-    }
-  }, [contextMenuRef]);
-  
+  const handleOutsideClick = useCallback(
+    (e) => {
+      if (
+        contextMenuRef.current &&
+        !contextMenuRef.current.contains(e.target)
+      ) {
+        setShowContextMenu(null);
+        setActiveChatId(null);
+      }
+    },
+    [contextMenuRef]
+  );
+
   const handleContextMenuClick = (id, event) => {
     setShowContextMenu(id);
     setActiveChatId(id);
@@ -150,11 +158,12 @@ const Chatbot = () => {
       left: buttonRect.left + window.scrollX,
     });
   };
-  
+
   useEffect(() => {
     if (showContextMenu) {
       document.addEventListener("mousedown", handleOutsideClick);
-      return () => document.removeEventListener("mousedown", handleOutsideClick);
+      return () =>
+        document.removeEventListener("mousedown", handleOutsideClick);
     }
   }, [showContextMenu, handleOutsideClick]);
   const examples = [
@@ -193,7 +202,7 @@ const Chatbot = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+    if (!loading && event.key === "Enter") {
       handlesendmessage();
     }
   };
@@ -201,6 +210,10 @@ const Chatbot = () => {
   return (
     <div className="h-[90vh] w-full bg-gray-100 flex ">
       {/* Sidebar */}
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <div className="w-[18%] h-full bg-white p-4 flex flex-col">
         {/* New Project Button */}
         <button
@@ -233,7 +246,7 @@ const Chatbot = () => {
                     }}
                     className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
                   >
-                    <BsThreeDots />
+                    <BsThreeDots className="rotate-90" />
                   </span>
                 </button>
 
@@ -329,17 +342,16 @@ const Chatbot = () => {
           {loading && (
             <div className="absolute bottom-[14%] right-[48%] z-10">
               <ThreeDots
-              visible={true}
-              height="60"
-              width="60"
-              color="purple"
-              radius="9"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
+                visible={true}
+                height="60"
+                width="60"
+                color="purple"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
               />
             </div>
-            
           )}
         </div>
 
@@ -354,12 +366,18 @@ const Chatbot = () => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            <span
-              onClick={() => handlesendmessage()}
-              className="bg-main border-[15px] border-main text-white rounded-full absolute right-2 top-1.5 cursor-pointer hover:bg-hovermain hover:border-hovermain"
+            <button
+              onClick={handlesendmessage}
+              disabled={loading} // Disable the button when loading is true
+              className={`bg-main border-[15px] border-main text-white rounded-full absolute right-2 top-1.5 
+                ${
+                  loading
+                    ? "cursor-not-allowed opacity-50"
+                    : "cursor-pointer hover:bg-hovermain hover:border-hovermain"
+                }`}
             >
               <FiSend />
-            </span>
+            </button>
           </div>
           <small className="font-light mt-2">
             AI can generate incorrect information.
