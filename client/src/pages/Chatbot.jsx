@@ -300,7 +300,7 @@ const Chatbot = () => {
                 key={index}
                 className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[77.6%]"
+                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[78%]"
                     : "bg-white rounded-lg max-w-[65%] self-end mr-[11%] flex-row-reverse"
                 }`}
               >

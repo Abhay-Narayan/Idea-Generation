@@ -29,7 +29,6 @@ const LoginSignup = () => {
           }
         );
         const { token, user } = response.data;
-        console.log(response.data.user);
         if (token) {
           dispatch(login({ token, user }));
           localStorage.setItem("token", token);
