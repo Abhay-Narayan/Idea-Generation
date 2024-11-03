@@ -5,6 +5,8 @@ import { LuUser } from "react-icons/lu";
 import { BsRobot } from "react-icons/bs";
 import { MdOutlinePublish } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
+import { BsThreeDots } from "react-icons/bs";
+import { RiDeleteBinLine } from "react-icons/ri";
 import Profile from "../Components/Profile";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react"; // Import useRef
@@ -17,7 +19,10 @@ const Chatbot = () => {
   const [chat, setChat] = useState([]);
   const [chatid, setChatid] = useState(null);
   const [message, setMessage] = useState("");
+  const [showContextMenu, setShowContextMenu] = useState(null);
+  const [activeChatId, setActiveChatId] = useState(null);
   const chatContainerRef = useRef(null); // Create a ref for the chat container
+  const contextMenuRef = useRef(null); // Ref for outside click detection
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -91,6 +96,7 @@ const Chatbot = () => {
       );
     }
   };
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTo({
@@ -99,6 +105,44 @@ const Chatbot = () => {
       });
     }
   }, [chat]);
+
+  const handleDeleteChat = async (id) => {
+    try {
+      // Call the backend to delete the chat
+      await axiosInstance.delete(`/bot/chat/${id}`);
+
+      // Update the state to remove the deleted chat
+      setUserchats((prevChats) =>
+        prevChats.filter((chat) => chat.chatId !== id)
+      );
+      setShowContextMenu(null); // Close the menu
+      setActiveChatId(null); // Reset active chat when deleting
+    } catch (error) {
+      console.error(
+        "Error deleting chat:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Failed to delete chat.");
+    }
+  };
+
+  const handleOutsideClick = (e) => {
+    if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
+      setShowContextMenu(null); // Close the menu
+      setActiveChatId(null); // Reset active chat on outside click
+    }
+  };
+
+  const handleContextMenuClick = (id) => {
+    setShowContextMenu(id);
+    setActiveChatId(id); // Set the active chat ID when context menu is shown
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
+
   const examples = [
     {
       text: "How to center a div in CSS? 🌐",
@@ -123,6 +167,7 @@ const Chatbot = () => {
   const getsingleChat = async (id) => {
     setChatid(id);
     setMessage("");
+    setActiveChatId(id);
   };
 
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -156,14 +201,47 @@ const Chatbot = () => {
         <div className="flex-1 mt-4 overflow-y-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100">
           <div className="flex flex-col gap-2">
             {userChats?.map((item) => (
-              <button
-                key={item.chatId}
-                onClick={() => getsingleChat(item.chatId)}
-                className="w-full p-2 rounded-lg text-left text-base font-normal flex items-center hover:bg-gray-100 transition-colors"
-              >
-                <IoChatboxEllipsesOutline className="mr-4 max-w-5 max-h-5 min-w-5 min-h-5" />
-                <span className="truncate">{item.title}</span>
-              </button>
+              <div className="relative" key={item.chatId}>
+                <button
+                  key={item.chatId}
+                  onClick={() => getsingleChat(item.chatId)}
+                  className={`group w-full p-2 rounded-lg text-left text-base font-normal flex items-center hover:bg-gray-100 transition-colors relative ${
+                    activeChatId === item.chatId ? "bg-gray-100" : ""
+                  } `}
+                >
+                  <IoChatboxEllipsesOutline className="mr-4 max-w-5 max-h-5 min-w-5 min-h-5" />
+                  <span className="truncate">{item.title}</span>
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowContextMenu(item.chatId);
+                      handleContextMenuClick(item.chatId);
+                    }}
+                    className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                  >
+                    <BsThreeDots />
+                  </span>
+                </button>
+
+                {/* Context Menu */}
+                {showContextMenu === item.chatId && (
+                  <div
+                    ref={contextMenuRef}
+                    className="absolute right-0 top-full mt-1 bg-white border border-gray-300 shadow-lg rounded-lg p-2 w-32 z-10"
+                  >
+                    <button
+                      onClick={() => handleDeleteChat(item.chatId)}
+                      className="w-full text-left font-medium flex items-center justify-center text-red-500 p-1 hover:bg-gray-100 rounded-lg"
+                    >
+                      {" "}
+                      <span className=" text-lg mr-2">
+                        <RiDeleteBinLine />
+                      </span>
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>
@@ -178,21 +256,21 @@ const Chatbot = () => {
       {/* Chat Area */}
       <div className="w-[62%] flex flex-col items-center justify-center">
         <div
-          className="h-[80%] w-[98%] overflow-y-scroll hide-scroll-bar pt-4 flex flex-col items-start"
+          className="h-[80%] w-[98%] overflow-y-scroll hide-scroll-bar pt-4 flex flex-col"
           ref={chatContainerRef}
         >
           {chat.length > 0 ? (
             chat.map((item, index) => (
               <div
                 key={index}
-                className={`w-[70%] p-6 flex mb-5 gap-2 shadow-lg ${
+                className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[10%] w-[80%]"
-                    : "bg-white rounded-lg ml-[20%] flex-row-reverse "
+                    ? "bg-surface rounded-lg ml-[10.5%] self-start max-w-[79%]"
+                    : "bg-white rounded-lg max-w-[69%] self-end mr-[10.5%] flex-row-reverse"
                 }`}
               >
                 <span
-                  className={`p-2 h-8 w-8 mt-1 rounded-full ${
+                  className={`p-2 h-8 w-8 rounded-full ${
                     item.role === "model" ? "bg-white" : "bg-gray-300"
                   }`}
                 >
