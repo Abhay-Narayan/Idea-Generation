@@ -225,12 +225,17 @@ const Chatbot = () => {
   };
 
   const handleRenameSave= async()=>{
+    
     try {
+      if(newTitle && newTitle.trim()){
       const response= await axiosInstance.put(`/bot/updateusertitle/${user._id}/${titleid}`,{newTitle:newTitle});
       setShowRenamePopup(false);
       setShowContextMenu(false);
       setupdatechat(!updatechat);
       if(response)toast.success(response.data.msg);
+      }else{
+        alert('Enter a valid title')
+      }
     } catch (error) {
       console.error(error);
     }
