@@ -10,7 +10,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { LuPencil } from "react-icons/lu";
 import Profile from "../Components/Profile";
 import { useSelector } from "react-redux";
-import { useEffect, useState, useRef } from "react"; // Import useRef
+import { useEffect, useState, useRef, useCallback } from "react"; // Import useRef
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
@@ -134,13 +134,13 @@ const Chatbot = () => {
     }
   };
 
-  const handleOutsideClick = (e) => {
+  const handleOutsideClick = useCallback((e) => {
     if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
-      setShowContextMenu(null); // Close the menu
-      setActiveChatId(null); // Reset active chat on outside click
+      setShowContextMenu(null);
+      setActiveChatId(null);
     }
-  };
-
+  }, [contextMenuRef]);
+  
   const handleContextMenuClick = (id, event) => {
     setShowContextMenu(id);
     setActiveChatId(id);
@@ -150,12 +150,13 @@ const Chatbot = () => {
       left: buttonRect.left + window.scrollX,
     });
   };
-
+  
   useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
-  }, []);
-
+    if (showContextMenu) {
+      document.addEventListener("mousedown", handleOutsideClick);
+      return () => document.removeEventListener("mousedown", handleOutsideClick);
+    }
+  }, [showContextMenu, handleOutsideClick]);
   const examples = [
     {
       text: "How to center a div in CSS? 🌐",
@@ -373,11 +374,11 @@ const Chatbot = () => {
         }`}
       >
         <Profile />
-        <div className="flex flex-col items-center border rounded-2xl  p-2 shadow-lg bg-white">
-          <button className="bg-white p-2 mb-3 text-main w-full h-[50px] border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-[.98] transition duration-300 ease-in-out transform hover:scale-105">
+        <div className="flex flex-col items-center border rounded-2xl p-2 shadow-lg bg-white">
+          <button className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform">
             <VscPreview className="text-2xl mr-2" /> Preview
           </button>
-          <button className="bg-main p-2 text-white w-full h-[50px] border border-gray-400 rounded-lg flex justify-center items-center hover:bg-hovermain transition duration-300 ease-in-out transform hover:scale-105 active:scale-[.98]">
+          <button className="bg-main shadow-lg p-2 text-white w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-hovermain active:scale-95 transition-transform">
             <MdOutlinePublish className="text-2xl mr-2" /> Publish
           </button>
         </div>
