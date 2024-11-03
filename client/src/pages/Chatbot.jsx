@@ -15,8 +15,7 @@ import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
 import { ThreeDots } from "react-loader-spinner";
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from "react-hot-toast";
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -27,6 +26,9 @@ const Chatbot = () => {
   const [activeChatId, setActiveChatId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [loading, setLoading] = useState(false);
+  const [showRenamePopup, setShowRenamePopup] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [originalTitle, setOriginalTitle] = useState("");
   const chatContainerRef = useRef(null); // Create a ref for the chat container
   const contextMenuRef = useRef(null); // Ref for outside click detection
 
@@ -114,6 +116,18 @@ const Chatbot = () => {
     }
   }, [chat]);
 
+  const handleRenameClick = (id, title) => {
+    setShowRenamePopup(true);
+    setNewTitle(title);
+    setOriginalTitle(title);
+    setActiveChatId(id);
+  };
+
+  const handleCancelRename = () => {
+    setNewTitle(originalTitle); // Revert to original title
+    setShowRenamePopup(false); // Close the popup
+  };
+
   const handleDeleteChat = async (id) => {
     try {
       // Call the backend to delete the chat
@@ -126,7 +140,7 @@ const Chatbot = () => {
       setShowContextMenu(null); // Close the menu
       setActiveChatId(null); // Reset active chat when deleting
       setChatid(null);
-      toast.success('Successfully Deleted')
+      toast.success("Successfully Deleted");
     } catch (error) {
       console.error(
         "Error deleting chat:",
@@ -210,10 +224,7 @@ const Chatbot = () => {
   return (
     <div className="h-[90vh] w-full bg-gray-100 flex ">
       {/* Sidebar */}
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-      />
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="w-[18%] h-full bg-white p-4 flex flex-col">
         {/* New Project Button */}
         <button
@@ -267,7 +278,10 @@ const Chatbot = () => {
                       </span>
                       Delete
                     </button>
-                    <button className="w-full text-left font-medium flex items-center justify-start p-2 hover:bg-gray-100 rounded-lg">
+                    <button
+                      onClick={() => handleRenameClick(item.chatId, item.title)}
+                      className="w-full text-left font-medium flex items-center justify-start p-2 hover:bg-gray-100 rounded-lg"
+                    >
                       {" "}
                       <span className=" text-base mr-2">
                         <LuPencil />
@@ -287,6 +301,32 @@ const Chatbot = () => {
           <span className="font-medium">Settings</span>
         </button>
       </div>
+
+      {/* Rename Popup */}
+      {showRenamePopup && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-lg font-semibold mb-4">Rename Chat</h2>
+            <input
+              type="text"
+              className="w-full border p-2 rounded mb-4 outline-none"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+            />
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={handleCancelRename}
+                className="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded"
+              >
+                Cancel
+              </button>
+              <button className="bg-main text-white py-2 px-4 rounded hover:bg-hovermain">
+                Rename
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Chat Area */}
       <div className="w-[62%] flex flex-col items-center justify-center relative">
