@@ -14,7 +14,7 @@ const Hero = () => {
           <button className="btn p-2 bg-white text-main rounded-md shadow-lg hover:scale-105 transform transition duration-300" >Learn More</button>
         </div>
       </div> 
-      <div className="w-[40%] flex items-center justify-end mt-16">
+      <div className="w-[40%] flex items-center justify-end ">
         <img className="w-[450px] h-[450px] rounded-lg brightness-95 transform scale-x-[-1]" src={aimage} alt="" />
       </div>
      </div>

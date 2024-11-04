@@ -1,16 +1,14 @@
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoChatboxEllipsesOutline, IoSettingsOutline } from "react-icons/io5";
 import { FiSend } from "react-icons/fi";
-import { LuUser } from "react-icons/lu";
-import { BsRobot } from "react-icons/bs";
+import { LuUser, LuPencil } from "react-icons/lu";
+import { BsRobot, BsThreeDots } from "react-icons/bs";
 import { MdOutlinePublish } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
-import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { LuPencil } from "react-icons/lu";
+
 import Profile from "../Components/Profile";
 import { useSelector } from "react-redux";
-import { useEffect, useState, useRef, useCallback } from "react"; // Import useRef
+import { useEffect, useState, useRef, useCallback } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
@@ -316,7 +314,7 @@ const Chatbot = () => {
         </div>
 
         {/* Settings Button */}
-        <button className="w-full h-12 mt-4 border border-gray-200 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
+        <button className="w-full h-12 mt-4 border shadow-lg outline-none rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
           <IoSettingsOutline className="w-5 h-5" />
           <span className="font-medium">Settings</span>
         </button>

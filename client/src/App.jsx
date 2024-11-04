@@ -4,11 +4,11 @@ import LoginSignup from "./pages/LoginSignup";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Chatbot from "./pages/Chatbot";
-import Testimonials from "./components/Testimonials"; // Import Testimonials
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "./redux/authSlice";
 import Protected from "./constants/Protected";
+import Blogs from "./pages/Blogs";
 
 function App() {
   const location = useLocation();
@@ -28,34 +28,28 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {!hideHeader && <Header />}
-      
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<LoginSignup />} />
-          {isAuthChecked ? (
-            <Route
-              path="/chat"
-              element={
-                <Protected>
-                  <Chatbot />
-                </Protected>
-              }
-            />
-          ) : (
-            <Route path="/chat" element={<p>Loading...</p>} />
-          )}
-          {/* Add a route for testimonials if desired */}
-          <Route path="/testimonials" element={<Testimonials />} />
-        </Routes>
-        
-        {/* Optionally, render Testimonials directly within the main layout */}
-        <Testimonials /> {/* This will render it on every page, below the main Routes */}
-      </main>
-
-      {!hideFooter && <Footer />}
+    <div >
+      {!hideHeader && <Header />} 
+      <div className="pt-14">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<LoginSignup />} />
+        <Route path="/blogs" element={<Blogs/>}/>
+        {isAuthChecked ? (
+          <Route
+            path="/chat"
+            element={
+              <Protected>
+                <Chatbot />
+              </Protected>
+            }
+          />
+        ) : (
+          <Route path="/chat" element={<p>Loading...</p>} />
+        )}
+      </Routes>
+      </div>  
+      {!hideFooter && <Footer />} 
     </div>
   );
 }
