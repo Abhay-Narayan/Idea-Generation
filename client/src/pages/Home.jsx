@@ -1,6 +1,7 @@
 import Features from "../components/Features"
 import Hero from "../components/Hero"
 import PopularHero from "../components/PopularHero"
+import Testimonials from "../components/Testimonials"
 
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
       <Hero />
       <Features />
       <PopularHero />
+      <Testimonials/>
     </div>
   )
 }
