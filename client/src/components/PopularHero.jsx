@@ -1,94 +1,143 @@
-import React from "react";
-import aimage3 from '../assets/aimage3.png'; // Import your image here
+import React, { useState } from "react";
+import aimage3 from "../assets/aimage3.jpg";
+import { FaThumbsUp } from "react-icons/fa";
+import { BiCalendar } from "react-icons/bi";
 
 const popularBlogs = [
   {
     title: "How AI is Transforming Project Management",
     description:
-      "Explore the innovative ways AI is changing project management practices.",
+      "Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
     upvotes: 150,
     date: "2024-10-15",
   },
   {
     title: "The Future of Software Development",
     description:
-      "Insights into upcoming trends and technologies shaping software development.",
+      "Insights into upcoming trends and technologies shaping software development. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
     upvotes: 130,
     date: "2024-10-10",
   },
   {
     title: "Building Scalable Applications",
-    description: "A guide to building applications that can scale seamlessly.",
+    description:
+      "A guide to building applications that can scale seamlessly. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
     upvotes: 120,
     date: "2024-10-05",
+  },
+  {
+    title: "Mastering Cloud Integration",
+    description:
+      "Tips and techniques for seamless cloud integration. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
+    upvotes: 110,
+    date: "2024-09-25",
+  },
+  {
+    title: "AI in Healthcare",
+    description:
+      "How AI is revolutionizing the healthcare industry. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
+    upvotes: 105,
+    date: "2024-09-15",
+  },
+  {
+    title: "Building Scalable Applications",
+    description:
+      "A guide to building applications that can scale seamlessly. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
+    upvotes: 120,
+    date: "2024-10-05",
+  },
+  {
+    title: "Mastering Cloud Integration",
+    description:
+      "Tips and techniques for seamless cloud integration. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
+    upvotes: 110,
+    date: "2024-09-25",
+  },
+  {
+    title: "AI in Healthcare",
+    description:
+      "How AI is revolutionizing the healthcare industry. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
+    upvotes: 105,
+    date: "2024-09-15",
+  },
+  {
+    title: "The Future of Software Development",
+    description:
+      "Insights into upcoming trends and technologies shaping software development. Explore the innovative ways AI is changing project management practices. Explore the innovative ways AI is changing project management practices.",
+    upvotes: 130,
+    date: "2024-10-10",
   },
 ];
 
 const PopularHero = () => {
-  return (
-    <section className="py-5 px-6 bg-[#f7f7fc] flex h-screen ">
-      {/* Image on the Left */}
-      <div className="w-1/2 flex justify-center items-end">
-        <img src={aimage3} alt="Descriptive Alt Text" className="mb-5 h-[500px] w-[510px] rounded-lg mr-3" />
-      </div>
+  const [showAll, setShowAll] = useState(false);
 
-      <div className="w-1/2 flex flex-col justify-center ">
-        <h2 className="text-5xl font-extrabold text-center mb-8 tracking-wide">
+  // Limit to 3 blogs if showAll is false
+  const displayedBlogs = showAll ? popularBlogs : popularBlogs.slice(0, 3);
+
+  return (
+    <section className="py-8 px-6 bg-[#f7f7fc] h-full flex flex-col items-center">
+      <div className="sticky top-0 bg-[#f7f7fc] w-full py-4 z-10">
+        <h2 className="text-4xl font-bold text-black text-center">
           Popular Blogs
         </h2>
+      </div>
+      <div className="flex w-full">
+        <div className="sticky top-10 h-screen flex flex-col items-center justify-center w-1/3">
+          <img
+            src={aimage3}
+            alt="Popular Blogs Illustration"
+            className="h-[600px] w-[400px] rounded-lg object-cover shadow-lg mb-5"
+          />
+        </div>
 
-        {/* Container for Blogs */}
-        <div className="grid grid-cols-1 gap-4">
-          {/* First Blog as a Large Card */}
-          <div
-            className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 flex flex-col  transition-transform transform hover:scale-105 gap-3"
-          >
-            <div className="w-full">
-              <h3 className="text-xl font-bold text-black mb-2">
-                {popularBlogs[0].title}
-              </h3>
-              <p className="text-gray-500 overflow-hidden">
-                {popularBlogs[0].description}
-              </p>
-            </div>
-            <div className="flex items-center justify-between text-gray-500 text-sm  w-full">
-              <span>{popularBlogs[0].date}</span>
-              <span className="font-semibold text-[#7c4ee4]">
-                {popularBlogs[0].upvotes} Upvotes
-              </span>
-            </div>
-            <button className="outline-none p-2 w-1/3 rounded bg-[#7c4ee4] text-white font-medium transition-colors duration-200 hover:bg-[#9e7ce8]">
-              Read More
-            </button>
-          </div>
-
-          {/* Grid for Remaining Blogs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {popularBlogs.slice(1).map((blog, index) => (
+        {/* Blogs Section */}
+        <div className="w-2/3 px-6 overflow-auto scrollbar-none mt-9">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {displayedBlogs.map((blog, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 flex flex-col gap-3 transition-transform transform hover:scale-105"
+                className={`bg-gray-100 border border-gray-200 rounded-lg shadow-lg p-5 transition-transform transform hover:scale-105 ${
+                  index === 0 ? "col-span-2" : "" // First blog card spans two columns
+                }`}
               >
-                <div className="w-full">
-                  <h3 className="text-xl font-bold text-black mb-2">
-                    {blog.title}
-                  </h3>
-                  <p className="text-gray-500 h-16">
-                    {blog.description}
-                  </p>
-                </div>
-                <div className="flex items-center justify-between text-gray-500 text-sm w-full">
-                  <span>{blog.date}</span>
-                  <span className="font-semibold text-[#7c4ee4]">
-                    {blog.upvotes} Upvotes
+                <h3 className="text-2xl font-semibold text-black mb-2 line-clamp-1">
+                  {blog.title}
+                </h3>
+                <p className="text-gray-600 mb-4 line-clamp-4">
+                  {blog.description}
+                </p>
+                <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
+                  <span className="flex items-center gap-1">
+                    <BiCalendar className="text-main" />
+                    {new Date(blog.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                  <span className="flex items-center gap-1 font-semibold text-main">
+                    <FaThumbsUp /> {blog.upvotes} Upvotes
                   </span>
                 </div>
-                <button className="py-1 px-2 w-full rounded bg-[#7c4ee4] text-white font-medium transition-colors duration-200 hover:bg-[#9e7ce8] outline-none">
+                <button className="w-full rounded border border-gray-400 bg-white py-2 font-medium transition-colors duration-200 hover:bg-main outline-none">
                   Read More
                 </button>
               </div>
             ))}
           </div>
+
+          {/* Show More / Show Less Button */}
+          {popularBlogs.length > 3 && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="px-6 py-3 rounded-full bg-main text-white font-medium hover:bg-[#9e7ce8] transition duration-200"
+              >
+                {showAll ? "Show Less" : "Show More"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
