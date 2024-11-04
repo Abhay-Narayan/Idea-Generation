@@ -4,6 +4,7 @@ import LoginSignup from "./pages/LoginSignup";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Chatbot from "./pages/Chatbot";
+import Testimonials from "./components/Testimonials"; // Import Testimonials
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "./redux/authSlice";
@@ -12,8 +13,7 @@ import Protected from "./constants/Protected";
 function App() {
   const location = useLocation();
   const hideHeader = location.pathname === "/auth";
-  const hideFooter =
-    location.pathname === "/auth" || location.pathname === "/chat";
+  const hideFooter = location.pathname === "/auth" || location.pathname === "/chat";
   const dispatch = useDispatch();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
@@ -26,26 +26,36 @@ function App() {
     }
     setIsAuthChecked(true);
   }, [dispatch]);
+
   return (
-    <div>
-      {!hideHeader && <Header />} 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<LoginSignup />} />
-        {isAuthChecked ? (
-          <Route
-            path="/chat"
-            element={
-              <Protected>
-                <Chatbot />
-              </Protected>
-            }
-          />
-        ) : (
-          <Route path="/chat" element={<p>Loading...</p>} />
-        )}
-      </Routes>
-      {!hideFooter && <Footer />} 
+    <div className="min-h-screen flex flex-col">
+      {!hideHeader && <Header />}
+      
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<LoginSignup />} />
+          {isAuthChecked ? (
+            <Route
+              path="/chat"
+              element={
+                <Protected>
+                  <Chatbot />
+                </Protected>
+              }
+            />
+          ) : (
+            <Route path="/chat" element={<p>Loading...</p>} />
+          )}
+          {/* Add a route for testimonials if desired */}
+          <Route path="/testimonials" element={<Testimonials />} />
+        </Routes>
+        
+        {/* Optionally, render Testimonials directly within the main layout */}
+        <Testimonials /> {/* This will render it on every page, below the main Routes */}
+      </main>
+
+      {!hideFooter && <Footer />}
     </div>
   );
 }
