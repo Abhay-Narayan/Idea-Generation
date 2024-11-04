@@ -13,8 +13,7 @@ import Blogs from "./pages/Blogs";
 function App() {
   const location = useLocation();
   const hideHeader = location.pathname === "/auth";
-  const hideFooter =
-    location.pathname === "/auth" || location.pathname === "/chat";
+  const hideFooter = location.pathname === "/auth" || location.pathname === "/chat";
   const dispatch = useDispatch();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
@@ -27,6 +26,7 @@ function App() {
     }
     setIsAuthChecked(true);
   }, [dispatch]);
+
   return (
     <div >
       {!hideHeader && <Header />} 
@@ -48,8 +48,7 @@ function App() {
           <Route path="/chat" element={<p>Loading...</p>} />
         )}
       </Routes>
-      </div>
-      
+      </div>  
       {!hideFooter && <Footer />} 
     </div>
   );
