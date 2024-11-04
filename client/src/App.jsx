@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "./redux/authSlice";
 import Protected from "./constants/Protected";
+import Blogs from "./pages/Blogs";
 
 function App() {
   const location = useLocation();
@@ -27,11 +28,13 @@ function App() {
     setIsAuthChecked(true);
   }, [dispatch]);
   return (
-    <div>
+    <div >
       {!hideHeader && <Header />} 
+      <div className="pt-14">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<LoginSignup />} />
+        <Route path="/blogs" element={<Blogs/>}/>
         {isAuthChecked ? (
           <Route
             path="/chat"
@@ -45,6 +48,8 @@ function App() {
           <Route path="/chat" element={<p>Loading...</p>} />
         )}
       </Routes>
+      </div>
+      
       {!hideFooter && <Footer />} 
     </div>
   );

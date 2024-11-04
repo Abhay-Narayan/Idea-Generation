@@ -22,9 +22,7 @@ const Header = () => {
   };
   return (
     <header
-      className={`${
-        !isChat && "fixed"
-      } w-full z-50 flex justify-around items-center p-2 gap-80 bg-[#ffffff] shadow-lg`}
+      className={`fixed w-full z-50 flex justify-around items-center p-2 gap-[14rem] bg-[#ffffff] shadow-lg`}
     >
       <div className="text-3xl font-bold">
         <a onClick={() => navigate("/")} className=" ">
@@ -38,9 +36,15 @@ const Header = () => {
       <nav className="flex gap-10 justify-center text-base ">
         <button
           onClick={handlechat}
-          className=" no-underline flex items-center  hover:text-main"
+          className=" no-underline flex items-center p-1 outline-none hover:text-main"
         >
           Chat
+        </button>
+        <button
+          onClick={()=>navigate('/blogs')}
+          className=" no-underline flex items-center p-1 outline-none  hover:text-main"
+        >
+          Blogs
         </button>
         <button
           onClick={handleauth}
