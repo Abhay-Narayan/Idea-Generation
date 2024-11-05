@@ -17,7 +17,7 @@ const Profile = () => {
       <div className="text-xl font-bold text-gray-800 pt-1">
         <h2>{user && user.username}</h2>
       </div>
-      <div className="text-sm p-3 italic text-gray-600">Description</div>
+      <div className="text-sm p-3 italic text-gray-600">{user && user.description?user.description : "Description"}</div>
       <div className="w-full border-t border-gray-300 py-3 mt-5 text-[14px] flex flex-col font-medium">
         <p className="h-8 flex items-center justify-between">
           <span className="text-gray-500">Profile viewers</span>

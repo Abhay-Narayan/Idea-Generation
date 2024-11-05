@@ -7,37 +7,43 @@
       id: 1, 
       title: "Virtual Event Platform",
       description: "A chatbot-assisted discussion about creating a virtual platform where users can host and join online events. Features include virtual networking rooms, interactive sessions, and real-time Q&A.",
-      author: "Jess"
+      author: "Jess",
+      image: "https://randomuser.me/api/portraits/women/32.jpg",
     },
     { 
       id: 2, 
       title: "AI-Powered Personal Finance Manager",
       description: "Exploring an AI chatbot for managing personal finances, offering budgeting advice, expense tracking, and personalized saving goals. Ideal for users looking to improve their financial literacy.",
-      author: "Jason"
+      author: "Jason",
+      image: "https://randomuser.me/api/portraits/men/31.jpg",
     },
     { 
       id: 3, 
       title: "E-learning Content Recommendation System",
       description: "Discussing a recommendation system that suggests learning resources based on user preferences and progress, using AI to curate and personalize educational content.",
-      author: "Tim"
+      author: "Tim",
+      image: "https://randomuser.me/api/portraits/women/35.jpg",
     },
     { 
       id: 4, 
       title: "Smart Grocery Shopping Assistant",
       description: "An idea to develop a chatbot that helps users create shopping lists, suggest recipes, and provide nutritional insights based on available items or dietary preferences.",
-      author: "Sarah"
+      author: "Sarah",
+      image: "https://randomuser.me/api/portraits/women/38.jpg",
     },
     { 
       id: 5, 
       title: "Remote Team Collaboration Hub",
       description: "Conversation around creating a platform for remote teams that integrates project management, real-time messaging, and collaborative tools in a single interface.",
-      author: "Michael"
+      author: "Michael",
+      image: "https://randomuser.me/api/portraits/men/32.jpg",
     },
     { 
       id: 6, 
       title: "Mental Health Support Chatbot",
       description: "Brainstorming a chatbot to provide mental health support, offering techniques for stress relief, mindfulness exercises, and connecting users with resources.",
-      author: "Emily"
+      author: "Emily",
+      image: "https://randomuser.me/api/portraits/women/31.jpg",
     }
   ];
 
