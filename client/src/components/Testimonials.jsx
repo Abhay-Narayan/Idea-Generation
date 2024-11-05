@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { IoIosArrowDropleft } from "react-icons/io";
+import { IoIosArrowDropright } from "react-icons/io"
 
 const testimonials = [
   {
@@ -119,20 +121,20 @@ const Testimonials = () => {
   return (
     <section className="bg-purple-100 py-12">
       <div className="container mx-auto px-4 text-center relative">
-        <h2 className="text-3xl font-semibold mb-8 text-purple-700">What Our Users Say</h2>
+        <h2 className="text-3xl font-semibold mb-8 ">What Our Users Say</h2>
         
         {/* Testimonials container */}
         <div className="flex items-center justify-center space-x-4">
           {/* Left Arrow */}
           <button
             onClick={handlePrev}
-            className="p-2 bg-purple-700 text-white rounded-full hover:bg-purple-800 focus:outline-none"
+            className=" bg-purple-700 text-white rounded-full hover:bg-purple-800 focus:outline-none"
           >
-            &lt;
+            <IoIosArrowDropleft className="h-9 w-9"/>
           </button>
 
           {/* Display 3 Testimonials */}
-          <div className="flex space-x-8"> {/* Increased space between tiles */}
+          <div className="flex space-x-8 "> {/* Increased space between tiles */}
             {currentTestimonials.map((testimonial, index) => (
               <div key={index} className="bg-white p-6 rounded-lg shadow-md w-96 mx-2"> {/* Increased tile width */}
                 <img
@@ -152,9 +154,9 @@ const Testimonials = () => {
           {/* Right Arrow */}
           <button
             onClick={handleNext}
-            className="p-2 bg-purple-700 text-white rounded-full hover:bg-purple-800 focus:outline-none"
+            className=" bg-purple-700 text-white rounded-full hover:bg-purple-800 focus:outline-none"
           >
-            &gt;
+            <IoIosArrowDropright className="h-9 w-9"/>
           </button>
         </div>
       </div>

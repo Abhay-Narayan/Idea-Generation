@@ -243,7 +243,7 @@ const Chatbot = () => {
     <div className="h-[90vh] w-full bg-gray-100 flex ">
       {/* Sidebar */}
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-[18%] h-full bg-white p-4 flex flex-col">
+      <div className="w-[18%] h-full bg-white p-4 flex flex-col border-r border-r-gray-300">
         {/* New Project Button */}
         <button
           onClick={handlenewproject}
@@ -358,7 +358,7 @@ const Chatbot = () => {
                 key={index}
                 className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[78%]"
+                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[77%]"
                     : "bg-white rounded-lg max-w-[65%] self-end mr-[11%] flex-row-reverse"
                 }`}
               >
@@ -418,7 +418,7 @@ const Chatbot = () => {
           <div className="w-full flex justify-center relative">
             <input
               type="text"
-              className="w-full border outline-none rounded-3xl p-4 pr-16 shadow-lg h-[60px] scrollbar-none"
+              className="w-full border border-gray-300 outline-none rounded-3xl p-4 pr-16 shadow-lg h-[60px] scrollbar-none"
               placeholder="What's in your mind?"
               value={message}
               onChange={(e) => setMessage(e.target.value)}

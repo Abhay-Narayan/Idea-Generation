@@ -5,7 +5,7 @@ import { assets } from "../assets/assets/";
 const Profile = () => {
   const {user}=useSelector((state)=>state.auth);
   return (
-    <div className="shadow-lg flex flex-col mt-5 items-center border rounded-2xl bg-white p-2  relative">
+    <div className="shadow-lg flex flex-col mt-3 items-center border rounded-2xl bg-white p-2  relative">
       <div className="h-[120px] w-full top-0 border rounded-t-2xl bg-main absolute z-0"></div>
       <div className="w-[150px] h-[150px] z-10 ">
         <img
