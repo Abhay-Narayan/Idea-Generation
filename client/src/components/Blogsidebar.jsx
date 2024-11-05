@@ -14,7 +14,7 @@ const Blogsidebar = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-white to-purple-100 relative h-full w-[20%] border-r border-r-gray-300  flex flex-col p-1">
+    <div className="bg-white relative h-full w-[20%] border-r border-r-gray-300  flex flex-col p-1">
       <div
         className="flex items-center gap-5 justify-start w-full mt-4 hover:bg-gray-200 rounded-lg p-2 cursor-pointer"
         onClick={() => navigate("/")}

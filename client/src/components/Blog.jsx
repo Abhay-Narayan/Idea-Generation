@@ -6,7 +6,7 @@ import { IoEye } from "react-icons/io5";
 
 const Blog = ({ blog }) => {
   return (
-    <div className="w-full bg-white rounded-lg border mt-3 p-4 cursor-pointer hover:bg-gradient-to-br hover:from-white hover:to-purple-100  hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] relative">
+    <div className="w-full bg-white rounded-lg border mt-3 p-4 cursor-pointer   hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] relative">
       <div className="absolute flex items-center right-4 top-4 gap-1 opacity-70 hover:opacity-100 transition-opacity">
         <IoEye className="w-5 h-5 text-gray-600" />
         <p className="text-xs text-gray-500">350</p>
