@@ -14,7 +14,7 @@ const Blogsidebar = () => {
   ];
 
   return (
-    <div className="relative h-full w-[20%] border-r border-r-gray-300 bg-white flex flex-col p-1">
+    <div className="bg-gradient-to-b from-white to-purple-100 relative h-full w-[20%] border-r border-r-gray-300  flex flex-col p-1">
       <div
         className="flex items-center gap-5 justify-start w-full mt-4 hover:bg-gray-200 rounded-lg p-2 cursor-pointer"
         onClick={() => navigate("/")}
@@ -49,7 +49,7 @@ const Blogsidebar = () => {
             {blogs.map((item)=>(
                 <div className="flex items-center text-black gap-3 p-2 hover:bg-surface rounded-lg cursor-pointer">
                   <IoBookOutline className="min-w-5 min-h-5 max-w-5 max-h-5 text-purple-950" />
-                  <p className="truncate">{item.title}</p>
+                  <p className="text-gray-800 text-sm truncate">{item.title}</p>
                 </div>    
             ))}
       </div>
