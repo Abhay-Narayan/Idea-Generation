@@ -104,7 +104,7 @@ const Profile = () => {
               </button>
               <button
                 onClick={handleSave}
-                className="bg-main text-white py-2 px-4 rounded-lg hover:bg-main-dark transition"
+                className="bg-main text-white py-2 px-4 rounded-lg hover:bg-hovermain active:scale-[0.98] transition"
               >
                 Save
               </button>

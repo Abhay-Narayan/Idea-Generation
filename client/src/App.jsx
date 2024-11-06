@@ -28,9 +28,9 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div >
+    <div className="flex flex-col">
       {!hideHeader && <Header />} 
-      <div className="pt-14">
+      <div className={`${!hideHeader && 'pt-14' }`}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<LoginSignup />} />
