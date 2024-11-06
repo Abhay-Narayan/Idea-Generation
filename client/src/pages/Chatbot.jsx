@@ -6,7 +6,7 @@ import { MdOutlinePublish } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-import Profile from "../Components/Profile";
+import Profile from "../components/Profile";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef, useCallback } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";

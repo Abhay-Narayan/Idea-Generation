@@ -1,30 +1,63 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { assets } from "../assets/assets";
 import { FiEdit3 } from "react-icons/fi"; // Icon for editing text fields
 import { FaCamera } from "react-icons/fa"; // Icon for uploading image
-
+import axiosInstance from "../constants/ProtectedRoutes";
+import { updateUser } from "../redux/authSlice";
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
   const [username, setUsername] = useState(user?.username || "");
   const [description, setDescription] = useState(user?.description || "");
   const [profilePic, setProfilePic] = useState(null);
-
+  const [imgurl, setImgurl] = useState(null);
+  const dispatch = useDispatch();
   const handleEditToggle = () => {
     setShowEditModal(!showEditModal);
   };
 
-  const handleProfilePicChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfilePic(e.target.files[0]);
+  const handleProfilePicChange = async (e) => {
+    if(e.target.files[0]){
+      const file= e.target.files[0];
+      const formData = new FormData();
+      formData.append('profilePic', file);
+
+      try {
+        const response= await axiosInstance.post(`/user/upload-dp`,formData,{
+          headers:{
+            'Content-Type':'multipart/form-data',
+          }
+        });
+        setImgurl(response.data.user.profilePic);
+      } catch (error) {
+        console.error("Error uploading profile picture:", error);
+      }
+
+    }else{
+      alert('please select files')
     }
   };
+  
+  useEffect(()=>{
+    const getUserprofile=async()=>{
+      try {
+        const response=await axiosInstance.get('/user/get-profile-pic');
+        setImgurl(response.data.profilePic)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getUserprofile();
+  },[imgurl]);
 
-  const handleSave = () => {
-    console.log("Username:", username);
-    console.log("Description:", description);
-    console.log("Profile Picture:", profilePic);
+  const handleSave = async() => {
+    try {
+      const response= await axiosInstance.put('/user/editUser',{description,username});
+      dispatch(updateUser({ username: response.data.user.username, description: response.data.user.description }));
+    } catch (error) {
+      console.error(error)
+    }
     setShowEditModal(false);
   };
 
@@ -35,10 +68,8 @@ const Profile = () => {
       {/* Profile Picture with Upload Icon */}
       <div className="relative w-[150px] h-[150px] z-10">
         <img
-          className="h-full w-full rounded-full p-1 object-cover"
-          src={
-            profilePic ? URL.createObjectURL(profilePic) : assets.profile_pic
-          }
+          className="h-[90%] w-[90%] mt-3 rounded-full border-4 border-main object-cover"
+          src={imgurl?imgurl:assets.profile_pic}
           alt="Profile"
         />
         <label
