@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
-import { VscPreview } from 'react-icons/vsc';
-import { MdOutlinePublish } from 'react-icons/md';
+import React, { useState } from "react";
+import { VscPreview } from "react-icons/vsc";
+import { MdOutlinePublish } from "react-icons/md";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const BlogPublish = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [blogTitle, setBlogTitle] = useState('');
-  const [blogDescription, setBlogDescription] = useState('');
-  const [blogContent, setBlogContent] = useState('');
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogDescription, setBlogDescription] = useState("");
+
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["clean"],
+    ],
+  };
 
   const handlePublish = () => {
-    console.log('Blog Published:', { blogTitle, blogDescription, blogContent });
+    console.log("Blog Published:", { blogTitle, blogDescription });
     setIsPopupOpen(false);
   };
 
   return (
     <div className="flex flex-col items-center border rounded-2xl p-2 shadow-lg bg-white">
-      {/* Preview and Publish buttons */}
       <button className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform">
         <VscPreview className="text-2xl mr-2" /> Preview
       </button>
@@ -29,39 +39,31 @@ const BlogPublish = () => {
       {/* Popup for blog creation */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-4xl h-[80%] flex flex-col">
-            <h2 className="text-3xl font-semibold mb-4 text-gray-800 text-center">Create Your Blog</h2>
+          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-4xl h-[90%] flex flex-col">
+            <h2 className="text-3xl font-semibold mb-4 text-gray-800 text-center">
+              Create Your Blog
+            </h2>
 
-            {/* Title Input */}
             <label className="block text-lg font-medium mb-2">Blog Title</label>
             <input
               type="text"
               value={blogTitle}
               onChange={(e) => setBlogTitle(e.target.value)}
-              className="border border-gray-300 p-3 w-full rounded-lg focus:ring-main focus:border-main mb-4 text-lg"
+              className="border border-gray-300 p-3 w-full rounded-lg focus:ring-main focus:border-main mb-6 text-lg"
               placeholder="Enter your blog title here..."
             />
 
-            {/* Description Input */}
-            <label className="block text-lg font-medium mb-2">Description</label>
-            <textarea
+            <label className="block text-lg font-medium mb-2">
+              Description
+            </label>
+            <ReactQuill
               value={blogDescription}
               onChange={(e) => setBlogDescription(e.target.value)}
-              className="border border-gray-300 p-3 w-full rounded-lg focus:ring-main focus:border-main mb-4 text-lg"
-              rows="3"
-              placeholder="Add a brief description..."
-            />
-
-            {/* Content Input */}
-            <label className="block text-lg font-medium mb-2">Content</label>
-            <textarea
-              value={blogContent}
-              onChange={(e) => setBlogContent(e.target.value)}
-              className="border border-gray-300 p-4 w-full rounded-lg focus:ring-main focus:border-main mb-4 h-52 resize-none text-lg"
+              modules={modules}
+              className=" px-0 py-1 w-full rounded-lg focus:ring-main focus:border-main mb-8 h-80 resize-none text-lg"
               placeholder="Write your blog content here..."
             />
 
-            {/* Action buttons */}
             <div className="flex justify-end gap-4 mt-6">
               <button
                 onClick={() => setIsPopupOpen(false)}
@@ -79,7 +81,6 @@ const BlogPublish = () => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };
