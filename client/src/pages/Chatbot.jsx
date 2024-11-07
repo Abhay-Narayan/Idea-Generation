@@ -14,6 +14,7 @@ import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
 import { ThreeDots } from "react-loader-spinner";
 import toast, { Toaster } from "react-hot-toast";
+import BlogPublish from "../Components/BlogPublish";
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -450,14 +451,7 @@ const Chatbot = () => {
         }`}
       >
         <Profile />
-        <div className="flex flex-col items-center border rounded-2xl p-2 shadow-lg bg-white">
-          <button className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform">
-            <VscPreview className="text-2xl mr-2" /> Preview
-          </button>
-          <button className="bg-main shadow-lg p-2 text-white w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-hovermain active:scale-95 transition-transform">
-            <MdOutlinePublish className="text-2xl mr-2" /> Publish
-          </button>
-        </div>
+        <BlogPublish/>
       </div>
     </div>
   );
