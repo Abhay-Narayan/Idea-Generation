@@ -65,4 +65,15 @@ userController.get('/get-profile-pic', verifyToken, async (req, res) => {
     }
   });
 
+userController.get('/getSingle/:id',async(req,res)=>{
+  try {
+    const userId=req.params.id;
+    const user=await User.findById(userId);
+    const {username, description}=user._doc;
+    return res.status(200).json({username,description});
+  } catch (error) {
+    
+  }
+})
+
 export default userController;

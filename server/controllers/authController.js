@@ -15,7 +15,7 @@ authController.post("/register", async (req, res) => {
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     const newUser = await User.create({ ...req.body, password: hashedPass });
 
-    const { password, ...others } = newUser._doc;
+    const { password, profilePic, ...others } = newUser._doc;
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
     return res.status(201).json({ user: others, token });
   } catch (error) {
@@ -35,7 +35,7 @@ authController.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const { password, ...others } = user._doc;
+    const { password, profilePic, ...others } = user._doc;
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     return res.status(200).json({ user: others, token });
   } catch (error) {

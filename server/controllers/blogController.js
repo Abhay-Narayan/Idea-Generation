@@ -15,6 +15,16 @@ blogController.get("/getAll", async (req, res) => {
   }
 });
 
+blogController.get('/getUserBlogs/:id',async(req,res)=>{
+  try {
+    const userId=req.params.id;
+    const blogs= await Blog.find({author:userId}).select('title');;
+    return res.status(200).json(blogs);
+  } catch (error) {
+    return res.status(500).json({message:'Failed to get blogs', error});
+  }
+})
+
 blogController.get("/find/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)

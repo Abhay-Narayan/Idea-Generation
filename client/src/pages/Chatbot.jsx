@@ -451,7 +451,7 @@ const Chatbot = () => {
         }`}
       >
         <Profile />
-        <BlogPublish/>
+        <BlogPublish chatId={chatid}/>
       </div>
     </div>
   );
