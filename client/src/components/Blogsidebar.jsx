@@ -47,12 +47,11 @@ const Blogsidebar = () => {
           Sort By:
         </label>
         <select
-          id="countries"
+          id="Sorts"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none"
         >
-          <option selected>Most Upvoted</option>
-          <option value="US">Least Upvoted</option>
-          <option value="CA">Recently Uploaded</option>
+          <option >Most Upvoted</option>
+          <option>Recently Uploaded</option>
         </select>
       </div>
       <hr className="bg-gray-300 mt-3 border-t-gray-300" />

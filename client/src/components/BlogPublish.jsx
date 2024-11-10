@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { assets } from "../assets/assets";
 
 const BlogPublish = ({ chatId }) => {
-  const { username } = useSelector((state) => state.auth.user);
+  const { user } = useSelector((state) => state.auth);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [blogTitle, setBlogTitle] = useState("");
@@ -55,6 +55,7 @@ const BlogPublish = ({ chatId }) => {
 
   const handlePublish = async () => {
     if (!blogTitle) toast.error("Title cannot be empty");
+    if(!blogDescription)toast.error('Description cannot be empty');
     try {
       const response = await axiosInstance.post("/blog", {
         title: blogTitle,
@@ -87,7 +88,7 @@ const BlogPublish = ({ chatId }) => {
   const previewBlog = {
     title: blogTitle || "Smart Grocery Shopping Assistant",
     description: blogDescription || "An idea to develop a chatbot that helps users create shopping lists, suggest recipes, and provide nutritional insights based on available items or dietary preferences.",
-    author: username || "Author Name",
+    author: user.username || "Author Name",
     image: assets.profile_pic
   };
 

@@ -16,7 +16,6 @@ const Profile = () => {
   const [imgurl, setImgurl] = useState(null);
   const dispatch = useDispatch();
   const [refresh, setrefresh]= useState(false);
-  
 
   const handleEditToggle = () => {
     setShowEditModal(!showEditModal);
@@ -55,19 +54,25 @@ const Profile = () => {
     };
     getUserprofile();
   }, [refresh]);
-    
-  useEffect(()=>{
-    const getUser=async()=>{
+  
+  useEffect(() => {
+    if (!user._id) return;  // Check if user._id is available
+  
+    const getUser = async () => {
       try {
-        const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/user/getSingle/${user._id}`);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/user/getSingle/${user._id}`);
         setDescription(response.data.description);
         setUsername(response.data.username);
       } catch (error) {
         console.log(error);
       }
-    }
+    };
+  
     getUser();
-  },[refresh]) 
+  
+  }, [user?._id, refresh]); // Trigger effect when user._id or refresh changes
+  
+   
 
   const handleSave = async () => {
     try {

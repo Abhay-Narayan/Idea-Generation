@@ -6,14 +6,33 @@ const blogController = express.Router();
 
 blogController.get("/getAll", async (req, res) => {
   try {
-    const blog = await Blog.find()
+    const blogs = await Blog.find()
       .sort({ upvotes: -1 })
-      .populate("author", "name");
-    return res.status(200).json(blog);
+      .populate("author", "username profilePic");
+
+    const formattedBlogs = blogs.map(blog => {
+      const { author } = blog;
+      return {
+        ...blog._doc,
+        author: author
+          ? {
+              username: author.username,
+              profilePic: author.profilePic?.data
+                ? `data:${author.profilePic.contentType};base64,${author.profilePic.data.toString("base64")}`
+                : null, // Handle cases where profilePic is missing
+            }
+          : null,
+      };
+    });
+
+    return res.status(200).json(formattedBlogs);
   } catch (error) {
+    console.error("Error fetching blogs:", error);
     res.status(500).json({ message: "Failed to retrieve blogs", error });
   }
 });
+
+
 
 blogController.get('/getUserBlogs/:id',async(req,res)=>{
   try {
