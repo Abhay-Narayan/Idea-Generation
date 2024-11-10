@@ -86,10 +86,12 @@ const BlogPublish = ({ chatId }) => {
   };
 
   const previewBlog = {
+    username:user.username,
     title: blogTitle || "Smart Grocery Shopping Assistant",
     description: blogDescription || "An idea to develop a chatbot that helps users create shopping lists, suggest recipes, and provide nutritional insights based on available items or dietary preferences.",
     author: user.username || "Author Name",
-    image: assets.profile_pic
+    image: assets.profile_pic,
+    createdAt:"2024-10-20T12:18:37.991Z"
   };
 
   return (
@@ -173,7 +175,7 @@ const BlogPublish = ({ chatId }) => {
 
       {isPreviewOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-50 rounded-lg shadow-lg p-6 w-[100%] max-w-3xl h-[55%] flex flex-col overflow-y-auto">
+          <div className="bg-gray-50 rounded-lg shadow-lg p-3 w-[100%] max-w-3xl h-[60%] flex flex-col overflow-y-auto scrollbar-none">
             <h2 className="text-2xl font-semibold text-center mb-4">
               Blog Preview
             </h2>

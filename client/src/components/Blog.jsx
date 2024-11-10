@@ -16,9 +16,9 @@ const Blog = ({ blog }) => {
       
       <div className="flex items-center gap-3 mt-1">
         <div className="relative w-8 h-8">
-          <img src={blog.author.profilePic} className="w-full h-full rounded-full border-2 border-gray-300 shadow-sm" alt="profile" />
+          <img src={blog.author.profilePic?blog.author.profilePic:assets.profile_pic} className="w-full h-full rounded-full border-2 border-gray-300 shadow-sm" alt="profile" />
         </div>
-        <p className="text-sm font-semibold text-gray-800">{blog.author.username}</p>
+        <p className="text-sm font-semibold text-gray-800">{blog.author.username||blog.username}</p>
         <span className="text-gray-400">•</span>
         <p className="text-xs text-gray-500">{timeAgo}</p>
       </div>
@@ -33,13 +33,13 @@ const Blog = ({ blog }) => {
       <div className="flex items-center text-sm mt-4 gap-4">
         <div className="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 p-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md">
           <BiUpvote className="w-5 h-5 text-gray-600 hover:text-purple-700 transition-colors" />
-          <p className="font-medium text-gray-800">{blog.upvotes.length}</p>
+          <p className="font-medium text-gray-800">{blog.upvotes?.length}</p>
           <BiDownvote className="w-5 h-5 text-gray-600 hover:text-red-600 transition-colors" />
         </div>
         
         <div className="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 p-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md">
           <FaRegCommentDots className="w-5 h-5 text-gray-600" />
-          <p className="font-medium text-gray-800">{blog.comments.length}</p>
+          <p className="font-medium text-gray-800">{blog.comments?.length}</p>
         </div>
         
         <div className="flex items-center gap-1 bg-main p-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md">
