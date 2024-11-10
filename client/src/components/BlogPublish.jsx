@@ -8,12 +8,17 @@ import axiosInstance from "../constants/ProtectedRoutes";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import { ThreeDots } from "react-loader-spinner";
+import Blog from "./Blog";
+import { useSelector } from "react-redux";
+import { assets } from "../assets/assets";
 
 const BlogPublish = ({ chatId }) => {
+  const { username } = useSelector((state) => state.auth.user);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
 
   const modules = {
     toolbar: [
@@ -49,28 +54,49 @@ const BlogPublish = ({ chatId }) => {
   };
 
   const handlePublish = async () => {
-    if(!blogTitle)toast.error('Title cannot be empty');
+    if (!blogTitle) toast.error("Title cannot be empty");
     try {
-      const response=await axiosInstance.post('/blog',{title:blogTitle, description:blogDescription});
+      const response = await axiosInstance.post("/blog", {
+        title: blogTitle,
+        description: blogDescription,
+      });
       console.log(response.data);
       setBlogDescription("");
       setBlogTitle("");
       setIsPopupOpen(false);
-      toast.success('Blog published Successfuly');
+      toast.success("Blog published Successfuly");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleclosemodal=()=>{
+  const handlePreview = () => {
+    setIsPreviewOpen(true);
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewOpen(false);
+  };
+
+  const handleclosemodal = () => {
     setIsPopupOpen(false);
     setBlogDescription("");
     setBlogTitle("");
-  }
+  };
+
+  const previewBlog = {
+    title: blogTitle || "Smart Grocery Shopping Assistant",
+    description: blogDescription || "An idea to develop a chatbot that helps users create shopping lists, suggest recipes, and provide nutritional insights based on available items or dietary preferences.",
+    author: username || "Author Name",
+    image: assets.profile_pic
+  };
 
   return (
     <div className="flex flex-col items-center border rounded-2xl p-2 shadow-lg bg-white">
-      <button className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform">
+      <button
+        onClick={handlePreview}
+        className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform"
+      >
         <VscPreview className="text-2xl mr-2" /> Preview
       </button>
       <button
@@ -89,18 +115,20 @@ const BlogPublish = ({ chatId }) => {
             </h2>
             {loading && (
               <div className="absolute right-[40%] top-[50%] flex flex-col justify-center items-center">
-                <p className="text-[#942894] font-bold text-xl">Generating summary😊</p>
-              <ThreeDots
-                visible={true}
-                height="60"
-                width="60"
-                color="purple"
-                radius="9"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-              />
-            </div>
+                <p className="text-[#942894] font-bold text-xl">
+                  Generating summary😊
+                </p>
+                <ThreeDots
+                  visible={true}
+                  height="60"
+                  width="60"
+                  color="purple"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
             )}
             <label className="block text-lg font-medium mb-1">Blog Title</label>
             <input
@@ -111,8 +139,10 @@ const BlogPublish = ({ chatId }) => {
               placeholder="Enter your blog title here..."
             />
 
-            <label className="block text-lg font-medium mb-1">Description</label>
-            
+            <label className="block text-lg font-medium mb-1">
+              Description
+            </label>
+
             <ReactQuill
               value={DOMPurify.sanitize(marked(blogDescription))}
               onChange={setBlogDescription}
@@ -136,6 +166,23 @@ const BlogPublish = ({ chatId }) => {
                 Publish
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {isPreviewOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-50 rounded-lg shadow-lg p-6 w-[100%] max-w-3xl h-[55%] flex flex-col overflow-y-auto">
+            <h2 className="text-2xl font-semibold text-center mb-4">
+              Blog Preview
+            </h2>
+            <Blog blog={previewBlog} />
+            <button
+              onClick={handleClosePreview}
+              className="mt-8 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition self-end"
+            >
+              Close Preview
+            </button>
           </div>
         </div>
       )}

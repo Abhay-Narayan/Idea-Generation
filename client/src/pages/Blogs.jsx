@@ -1,5 +1,5 @@
   import Profile from "../Components/Profile"
-  import Blog from "../components/Blog"
+  import Blog from "../Components/Blog"
   import Blogsidebar from "../components/Blogsidebar"
 
   const blogs = [
