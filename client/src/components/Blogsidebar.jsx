@@ -1,31 +1,46 @@
 import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoBookOutline } from "react-icons/io5";
-import {IoSettingsOutline } from "react-icons/io5";
+import { IoSettingsOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { RiDeleteBinLine } from "react-icons/ri";
 import axios from "axios";
+import axiosInstance from "../constants/ProtectedRoutes";
 
 const Blogsidebar = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [blogs, setBlogs] = useState(null);
+  const [deleted,setdeleted]=useState(false);
+
+  const handleDeleteblog= async(id)=>{
+    try {
+      const response= await axiosInstance.delete(`/blog/deleteBlog/${id}`);
+      console.log(response.data);
+      setdeleted(!deleted);
+    } catch (error) {
+      console.log('Unable to delete',error)
+    }
+  }
 
   useEffect(() => {
     // Ensure user is available before making the API call
     if (user && user._id) {
       const getBlogs = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/blog/getUserBlogs/${user._id}`);
+          const response = await axios.get(
+            `${import.meta.env.VITE_BASE_URL}/blog/getUserBlogs/${user._id}`
+          );
           setBlogs(response.data);
         } catch (error) {
-          console.error('Error fetching blogs:', error);
+          console.error("Error fetching blogs:", error);
         }
       };
 
       getBlogs();
     }
-  }, [user]); // Add user as a dependency so effect reruns when user changes
+  }, [user,deleted]); // Add user as a dependency so effect reruns when user changes
 
   return (
     <div className="bg-white relative h-full w-[20%] border-r border-r-gray-300  flex flex-col p-1">
@@ -50,7 +65,7 @@ const Blogsidebar = () => {
           id="Sorts"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none"
         >
-          <option >Most Upvoted</option>
+          <option>Most Upvoted</option>
           <option>Recently Uploaded</option>
         </select>
       </div>
@@ -61,9 +76,15 @@ const Blogsidebar = () => {
         <h2 className="text-lg font-semibold mb-2">My Blogs</h2>
         {blogs && blogs.length > 0 ? (
           blogs.map((item) => (
-            <div key={item._id} className="flex items-center text-black gap-3 p-2 hover:bg-surface rounded-lg cursor-pointer">
+            <div
+              key={item._id}
+              className="flex items-center text-black gap-3 p-2 hover:bg-surface rounded-lg cursor-pointer group"
+            >
               <IoBookOutline className="min-w-5 min-h-5 max-w-5 max-h-5 text-purple-950" />
-              <p className="text-gray-800 text-sm truncate">{item.title}</p>
+              <p className="text-gray-800 text-sm flex justify-between w-full">
+                {item.title.slice(0, 25).concat("...")}
+                <RiDeleteBinLine onClick={()=>handleDeleteblog(item._id)} className="min-w-5 text-gray-600 min-h-5 max-w-5 hidden group-hover:block transition-opacity duration-200" />
+              </p>
             </div>
           ))
         ) : (
@@ -79,4 +100,3 @@ const Blogsidebar = () => {
 };
 
 export default Blogsidebar;
-

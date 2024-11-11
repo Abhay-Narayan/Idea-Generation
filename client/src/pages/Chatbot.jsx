@@ -355,10 +355,10 @@ const Chatbot = () => {
             chat.map((item, index) => (
               <div
                 key={index}
-                className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
+                className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg rounded-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[5.2rem]  max-w-[662px]"
-                    : "bg-white rounded-lg max-w-[600px] self-end mr-[5rem] flex-row-reverse"
+                    ? "bg-surface ml-[5.2rem] max-w-[661px]"
+                    : "bg-white self-end mr-[5rem] max-w-[600px] flex-row-reverse"
                 }`}
               >
                 <span
