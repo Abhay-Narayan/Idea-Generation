@@ -2,8 +2,6 @@ import { IoChatboxEllipsesOutline, IoSettingsOutline } from "react-icons/io5";
 import { FiSend } from "react-icons/fi";
 import { LuUser, LuPencil } from "react-icons/lu";
 import { BsRobot, BsThreeDots } from "react-icons/bs";
-import { MdOutlinePublish } from "react-icons/md";
-import { VscPreview } from "react-icons/vsc";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 import Profile from "../Components/Profile";
@@ -14,6 +12,7 @@ import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
 import { ThreeDots } from "react-loader-spinner";
 import toast, { Toaster } from "react-hot-toast";
+import BlogPublish from "../Components/BlogPublish";
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -243,7 +242,7 @@ const Chatbot = () => {
     <div className="h-[90vh] w-full bg-gray-100 flex ">
       {/* Sidebar */}
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-[18%] h-full bg-white p-4 flex flex-col">
+      <div className="w-[18%] h-full bg-white p-4 flex flex-col border-r border-r-gray-300">
         {/* New Project Button */}
         <button
           onClick={handlenewproject}
@@ -358,8 +357,8 @@ const Chatbot = () => {
                 key={index}
                 className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[78%]"
-                    : "bg-white rounded-lg max-w-[65%] self-end mr-[11%] flex-row-reverse"
+                    ? "bg-surface rounded-lg ml-[5.2rem]  max-w-[662px]"
+                    : "bg-white rounded-lg max-w-[600px] self-end mr-[5rem] flex-row-reverse"
                 }`}
               >
                 <span
@@ -416,9 +415,9 @@ const Chatbot = () => {
         {/* Input Section */}
         <div className="h-[15%] w-[80%] flex flex-col items-center justify-center mt-4">
           <div className="w-full flex justify-center relative">
-            <input
+            <textarea
               type="text"
-              className="w-full border outline-none rounded-3xl p-4 pr-16 shadow-lg h-[60px] scrollbar-none"
+              className="w-full border border-gray-300 outline-none rounded-3xl p-4 pr-16 shadow-lg max-h-[60px] min-h-[60px] scrollbar-none"
               placeholder="What's in your mind?"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -450,14 +449,7 @@ const Chatbot = () => {
         }`}
       >
         <Profile />
-        <div className="flex flex-col items-center border rounded-2xl p-2 shadow-lg bg-white">
-          <button className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform">
-            <VscPreview className="text-2xl mr-2" /> Preview
-          </button>
-          <button className="bg-main shadow-lg p-2 text-white w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-hovermain active:scale-95 transition-transform">
-            <MdOutlinePublish className="text-2xl mr-2" /> Publish
-          </button>
-        </div>
+        <BlogPublish chatId={chatid}/>
       </div>
     </div>
   );

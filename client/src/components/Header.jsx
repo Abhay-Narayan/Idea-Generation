@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../redux/authSlice";
 import { assets } from "../assets/assets";
+import logo2 from "../assets/logo2.png"
 
 const Header = () => {
   const location = useLocation();
-  const isChat = location.pathname === "/chat";
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const Header = () => {
   };
   return (
     <header
-      className={`fixed w-full z-50 flex justify-around items-center p-2 gap-[14rem] bg-[#ffffff] shadow-lg`}
+      className="fixed w-full z-50 flex justify-around items-center p-2 gap-[14rem] bg-[#ffffff] shadow-lg"
     >
       <div className="text-3xl font-bold">
         <a onClick={() => navigate("/")} className=" ">
