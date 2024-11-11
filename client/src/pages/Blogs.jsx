@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'; // Import Link
 import Profile from "../Components/Profile";
 import Blog from "../Components/Blog";
 import Blogsidebar from "../components/Blogsidebar";
@@ -27,7 +28,11 @@ const Blogs = () => {
       <div className="w-[60%] h-full p-2 flex flex-col scroll-auto scrollbar-none overflow-auto">
         <hr className="bg-gray-300 mt-3 border-t-gray-300" />
         {blogs.length > 0 ? ( // Only map if blogs have loaded
-          blogs.map((item) => <Blog blog={item} key={item._id} />)
+          blogs.map((item) => (
+            <Link to={`/blog/${item._id}`} key={item._id}> {/* Add Link */}
+              <Blog blog={item} />
+            </Link>
+          ))
         ) : (
           <p>Loading blogs...</p> // Fallback while blogs are loading
         )}
