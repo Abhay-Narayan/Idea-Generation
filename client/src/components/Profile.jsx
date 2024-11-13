@@ -56,7 +56,7 @@ const Profile = () => {
   }, [refresh]);
   
   useEffect(() => {
-    if (!user._id) return;  // Check if user._id is available
+      // Check if user._id is available
   
     const getUser = async () => {
       try {
@@ -67,8 +67,9 @@ const Profile = () => {
         console.log(error);
       }
     };
-  
+  setTimeout(()=>{
     getUser();
+  },500)
   
   }, [user?._id, refresh]); // Trigger effect when user._id or refresh changes
   
