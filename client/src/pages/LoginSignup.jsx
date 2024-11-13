@@ -17,8 +17,22 @@ const LoginSignup = () => {
     setAction((prevAction) => (prevAction === "Login" ? "Sign up" : "Login"));
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleaction = async (e) => {
     e.preventDefault();
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 6) {
+        toast.error("Password must be at least 6 characters long.");
+        return;
+    }
+
     if (action == "Login") {
       try {
         const response = await axios.post(
