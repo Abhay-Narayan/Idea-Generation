@@ -99,8 +99,5 @@ const Blogsidebar = () => {
   );
 };
 
-<<<<<<< HEAD
 export default Blogsidebar;
-=======
-export default Blogsidebar;
->>>>>>> 7c73c1d7bef6aa32c570add2f49e8531aee69849
+
