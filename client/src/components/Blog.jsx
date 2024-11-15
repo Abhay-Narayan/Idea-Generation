@@ -7,8 +7,10 @@ import { BsThreeDots } from "react-icons/bs";
 import { formatDistanceToNow } from "date-fns";
 import { useState, useRef, useEffect } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";
+import { LuPencil } from "react-icons/lu";
+import { RiDeleteBinLine } from "react-icons/ri";
 
-const Blog = ({ blog, deleteBlog }) => {
+const Blog = ({ blog, deleteBlog, handleEditBlog }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const optionsRef = useRef(null);
@@ -41,12 +43,6 @@ const Blog = ({ blog, deleteBlog }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (deleted) {
-  //     return null;
-  //   }
-  // }, [deleted]);
-
   const timeAgo = formatDistanceToNow(new Date(blog.createdAt), {
     addSuffix: true,
   });
@@ -74,15 +70,21 @@ const Blog = ({ blog, deleteBlog }) => {
             className="absolute right-0 top-14 bg-white border border-gray-300 shadow-lg rounded-xl p-2 w-28 z-50"
           >
             <button
-              className="w-full text-left text-gray-800 hover:bg-gray-100 p-2 rounded-lg"
-              onClick={() => alert("Edit functionality to be implemented")}
+              className="w-full text-left font-medium flex items-center justify-start text-gray-800 hover:bg-gray-100 p-2 rounded-lg"
+              onClick={() => handleEditBlog(blog)}
             >
+              <span className=" text-base mr-2">
+                <LuPencil />
+              </span>
               Edit
             </button>
             <button
-              className="w-full text-left text-red-500 hover:bg-gray-100 p-2 rounded-lg"
+              className="w-full text-left font-medium flex items-center justify-start text-red-500 hover:bg-gray-100 p-2 rounded-lg"
               onClick={handleDeleteBlog}
             >
+              <span className=" text-lg mr-1.5">
+                <RiDeleteBinLine />
+              </span>
               Delete
             </button>
           </div>
