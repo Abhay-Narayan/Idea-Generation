@@ -160,4 +160,16 @@ chatController.put("/updateusertitle/:userId/:chatId",verifyToken,async(req,res)
   }
 })
 
+chatController.get('/getSummary/:id',verifyToken,async(req,res)=>{
+  try {
+    const chatId=req.params.id;
+    const chat= await Chat.findById(chatId);
+    const history= chat.history;
+    const aiResponse= await generateResponse(history, process.env.PROMPT);
+    return res.status(200).json({aiResponse});
+  } catch (error) {
+    return res.status(500).json({msg:'Cant get summary', error});
+  }
+})
+
 export default chatController;

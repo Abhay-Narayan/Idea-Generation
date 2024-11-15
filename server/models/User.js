@@ -11,15 +11,18 @@ const UserSchema= new Schema({
         required: true,
         unique:true,
     },
+    description:{
+        type: String,
+    },
     password:{
         type: String,
         required: true,
         min:6,
     },
-    imgLink: {
-        type: String,
-        default: 'https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png', 
-    }
+    profilePic: {
+        data: Buffer,
+        contentType: String,
+      },
 },{timestamps:true})
 
 export default model("User", UserSchema);

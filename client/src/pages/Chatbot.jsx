@@ -1,21 +1,18 @@
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoChatboxEllipsesOutline, IoSettingsOutline } from "react-icons/io5";
 import { FiSend } from "react-icons/fi";
-import { LuUser } from "react-icons/lu";
-import { BsRobot } from "react-icons/bs";
-import { MdOutlinePublish } from "react-icons/md";
-import { VscPreview } from "react-icons/vsc";
-import { BsThreeDots } from "react-icons/bs";
+import { LuUser, LuPencil } from "react-icons/lu";
+import { BsRobot, BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { LuPencil } from "react-icons/lu";
-import Profile from "../Components/Profile";
+
+import Profile from "../components/Profile";
 import { useSelector } from "react-redux";
-import { useEffect, useState, useRef, useCallback } from "react"; // Import useRef
+import { useEffect, useState, useRef, useCallback } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";
 import Markdown from "../constants/Markdown";
 import { assets } from "../assets/assets";
 import { ThreeDots } from "react-loader-spinner";
 import toast, { Toaster } from "react-hot-toast";
+import BlogPublish from "../Components/BlogPublish";
 
 const Chatbot = () => {
   const [userChats, setUserchats] = useState([]);
@@ -245,7 +242,7 @@ const Chatbot = () => {
     <div className="h-[90vh] w-full bg-gray-100 flex ">
       {/* Sidebar */}
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-[18%] h-full bg-white p-4 flex flex-col">
+      <div className="w-[18%] h-full bg-white p-4 flex flex-col border-r border-r-gray-300">
         {/* New Project Button */}
         <button
           onClick={handlenewproject}
@@ -316,7 +313,7 @@ const Chatbot = () => {
         </div>
 
         {/* Settings Button */}
-        <button className="w-full h-12 mt-4 border border-gray-200 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
+        <button className="w-full h-12 mt-4 border shadow-lg outline-none rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
           <IoSettingsOutline className="w-5 h-5" />
           <span className="font-medium">Settings</span>
         </button>
@@ -358,10 +355,10 @@ const Chatbot = () => {
             chat.map((item, index) => (
               <div
                 key={index}
-                className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg ${
+                className={`max-w-[85%] p-3 flex mb-5 gap-2 shadow-lg rounded-lg ${
                   item.role === "model"
-                    ? "bg-surface rounded-lg ml-[11%] self-start max-w-[78%]"
-                    : "bg-white rounded-lg max-w-[65%] self-end mr-[11%] flex-row-reverse"
+                    ? "bg-surface ml-[5.2rem] max-w-[661px]"
+                    : "bg-white self-end mr-[5rem] max-w-[600px] flex-row-reverse"
                 }`}
               >
                 <span
@@ -418,9 +415,9 @@ const Chatbot = () => {
         {/* Input Section */}
         <div className="h-[15%] w-[80%] flex flex-col items-center justify-center mt-4">
           <div className="w-full flex justify-center relative">
-            <input
+            <textarea
               type="text"
-              className="w-full border outline-none rounded-3xl p-4 pr-16 shadow-lg h-[60px] scrollbar-none"
+              className="w-full border border-gray-300 outline-none rounded-3xl p-4 pr-16 shadow-lg max-h-[60px] min-h-[60px] scrollbar-none"
               placeholder="What's in your mind?"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -452,14 +449,7 @@ const Chatbot = () => {
         }`}
       >
         <Profile />
-        <div className="flex flex-col items-center border rounded-2xl p-2 shadow-lg bg-white">
-          <button className="bg-white shadow-lg p-2 mb-3 text-main w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-gray-200 active:scale-95 transition-transform">
-            <VscPreview className="text-2xl mr-2" /> Preview
-          </button>
-          <button className="bg-main shadow-lg p-2 text-white w-full h-12 border border-gray-400 rounded-lg flex justify-center items-center hover:bg-hovermain active:scale-95 transition-transform">
-            <MdOutlinePublish className="text-2xl mr-2" /> Publish
-          </button>
-        </div>
+        <BlogPublish chatId={chatid}/>
       </div>
     </div>
   );
