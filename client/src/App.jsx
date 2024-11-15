@@ -4,28 +4,19 @@ import LoginSignup from "./pages/LoginSignup";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Chatbot from "./pages/Chatbot";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "./redux/authSlice";
 import Protected from "./constants/Protected";
 import Blogs from "./pages/Blogs";
+import Blog from "./pages/Blog";
 
 function App() {
   const location = useLocation();
-  const hideHeader = location.pathname === "/auth";
-  const hideFooter = location.pathname === "/auth" || location.pathname === "/chat";
+  const hideHeader = location.pathname === "/auth"
+  const hideFooter = location.pathname === "/auth" || location.pathname === "/chat" || location.pathname.startsWith("/blog/") || location.pathname === "/blogs";
   const dispatch = useDispatch();
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (token && user) {
-      dispatch(login({ token, user }));
-    }
-    setIsAuthChecked(true);
-  }, [dispatch]);
+  const isAuthChecked = useSelector((state) => state.auth.isAuthenticated);
 
   return (
     <div className="flex flex-col">
@@ -35,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<LoginSignup />} />
         <Route path="/blogs" element={<Blogs/>}/>
+        <Route path="/blog/:id" element={<Blog/>}/>
         {isAuthChecked ? (
           <Route
             path="/chat"

@@ -16,7 +16,7 @@ userController.put('/editUser', verifyToken, async (req, res) => {
         if (username !== undefined) updateFields.username = username;
 
         const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true });
-        const { password, ...others } = updatedUser._doc;
+        const { password,profilePic, ...others } = updatedUser._doc;
         
         return res.status(200).json({ msg: "User info updated", user: others });
     } catch (error) {

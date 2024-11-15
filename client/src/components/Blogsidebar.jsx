@@ -78,12 +78,19 @@ const Blogsidebar = () => {
           blogs.map((item) => (
             <div
               key={item._id}
+              onClick={() => window.open(`/blog/${item._id}`, "_blank")}
               className="flex items-center text-black gap-3 p-2 hover:bg-surface rounded-lg cursor-pointer group"
             >
               <IoBookOutline className="min-w-5 min-h-5 max-w-5 max-h-5 text-purple-950" />
               <p className="text-gray-800 text-sm flex justify-between w-full">
                 {item.title.slice(0, 25).concat("...")}
-                <RiDeleteBinLine onClick={()=>handleDeleteblog(item._id)} className="min-w-5 text-gray-600 min-h-5 max-w-5 hidden group-hover:block transition-opacity duration-200" />
+                <RiDeleteBinLine
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevents event from propagating to the parent
+                    handleDeleteblog(item._id);
+                  }}
+                  className="min-w-5 text-gray-600 min-h-5 max-w-5 hidden group-hover:block transition-opacity duration-200"
+                />
               </p>
             </div>
           ))
@@ -91,7 +98,7 @@ const Blogsidebar = () => {
           <p>No blogs found.</p>
         )}
       </div>
-      <button className="bg-gray-50 flex items-center gap-5 justify-center w-[80%] mx-auto border mt-2 hover:bg-gray-200 rounded-lg p-2 py-2.5 shadow-sm absolute cursor-pointer bottom-10 right-8">
+      <button className="bg-gray-50 flex items-center gap-5 justify-center w-[80%] mx-auto border mt-2 hover:bg-gray-200 rounded-lg p-2 py-2.5 shadow-sm absolute cursor-pointer bottom-2 right-8">
         <IoSettingsOutline className="w-5 h-5" />
         <span className="font-medium">Settings</span>
       </button>

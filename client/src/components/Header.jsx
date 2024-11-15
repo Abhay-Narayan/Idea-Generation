@@ -3,13 +3,19 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../redux/authSlice";
 import { useState, useEffect, useRef } from "react";
 import { assets } from "../assets/assets";
+<<<<<<< HEAD
 import axiosInstance from "../constants/ProtectedRoutes";
+=======
+import logo2 from "../assets/logo2.png"
+import {persistor} from '../redux/store'
+>>>>>>> upstream/main
 
 const Header = () => {
   const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+<<<<<<< HEAD
 
   const [profilePic, setProfilePic] = useState(null);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
@@ -31,9 +37,13 @@ const Header = () => {
     }
   }, [isAuthenticated]);
 
+=======
+  const path=location.pathname;
+>>>>>>> upstream/main
   const handleauth = () => {
     if (!isAuthenticated) navigate("/auth");
     else {
+      persistor.purge();
       dispatch(logout());
       navigate("/");
     }
@@ -86,11 +96,12 @@ const Header = () => {
       <nav className="flex gap-10 justify-center text-base ">
         <button
           onClick={handlechat}
-          className=" no-underline flex items-center p-1 outline-none hover:text-main"
+          className={`${path==='/chat' &&  `font-semibold text-main`} no-underline flex items-center p-1 outline-none hover:underline hover:text-main`}
         >
           Chat
         </button>
         <button
+<<<<<<< HEAD
           onClick={() => navigate("/blogs")}
           className=" no-underline flex items-center p-1 outline-none  hover:text-main"
         >
@@ -127,6 +138,19 @@ const Header = () => {
             )}
           </div>
         )}
+=======
+          onClick={()=>navigate('/blogs')}
+          className={`${(path==='/blogs' || path.startsWith('/blog')) &&  `font-semibold text-main`} no-underline flex items-center p-1 outline-none hover:underline hover:text-main`}
+        >
+          Blogs
+        </button>
+        <button
+          onClick={handleauth}
+          className=" w-20 text-center bg-main text-white border transition-transform duration-300 hover:scale-105  py-2 px-3 rounded-md font-medium no-underline "
+        >
+          {isAuthenticated ? "Logout" : "Login"}
+        </button>
+>>>>>>> upstream/main
       </nav>
     </header>
   );
