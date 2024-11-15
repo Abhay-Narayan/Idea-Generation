@@ -1,0 +1,150 @@
+/* Variables */
+:root {
+    /* Colors */
+    --primary-color: #7c4ee4;
+    --secondary-color: #1e40af;
+    --light-gray: #f3f4f6;
+    --border-color: #e5e7eb;
+    
+    /* Typography */
+    --base-font-size: 16px;
+    --heading-font-size-l: 1.75rem;
+    --heading-font-size-m: 1.5rem;
+    --heading-font-size-s: 1.25rem;
+    
+    /* Spacing */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    
+    /* Transitions */
+    --transition-speed: 0.2s;
+  }
+  
+  /* Base container styles */
+  .blog-description {
+    /* Typography */
+    font-size: var(--base-font-size);
+    line-height: 1.7;
+    
+    /* Spacing */
+    padding: var(--spacing-lg);
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  
+  /* Text elements */
+  .blog-description p {
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.01em;
+  }
+  
+  .blog-description strong {
+    font-size: 1.05em;
+    font-weight: 600;
+  }
+  
+  /* Headings */
+  .blog-description h1,
+  .blog-description h2,
+  .blog-description h3,
+  .blog-description h4,
+  .blog-description h5 {
+    line-height: 1.2;
+    
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+  }
+  
+  .blog-description h1 { font-size: var(--heading-font-size-l); }
+  .blog-description h2 { font-size: var(--heading-font-size-m); }
+  .blog-description h3 { font-size: var(--heading-font-size-s); }
+  
+  /* Links */
+  .blog-description a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all var(--transition-speed) ease-in-out;
+  }
+  
+  .blog-description a:hover {
+    color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
+  }
+  
+  /* Lists */
+  .blog-description ul,
+  .blog-description ol {
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .blog-description li {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.6;
+    position: relative;
+  }
+  
+  .blog-description ul li::before {
+    content: "•";
+    color: var(--primary-color);
+    font-weight: bold;
+    position: absolute;
+    left: -1.2rem;
+    font-size: 1.6em; /* Makes the bullet point 50% larger */
+    line-height: 1; /* Helps with vertical alignment */
+     /* Fine-tunes vertical positioning */
+  }
+  
+  /* Blockquotes */
+  .blog-description blockquote {
+    /* Layout */
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    
+    /* Visual styling */
+    background-color: var(--light-gray);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    /* Typography */
+    font-style: italic;
+    color: #4a5568;
+  }
+  
+  /* Code blocks */
+  .blog-description code {
+    background-color: var(--light-gray);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  
+  /* Images */
+  .blog-description img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: var(--spacing-md) 0;
+  }
+  
+  /* Tables */
+  .blog-description table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-md) 0;
+    border: 1px solid var(--border-color);
+  }
+  
+  .blog-description th,
+  .blog-description td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+  }
+  
+  .blog-description th {
+    background-color: var(--light-gray);
+    font-weight: 600;
+  }

@@ -11,8 +11,8 @@ import axios from "axios";
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [username, setUsername] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState(user?.description || '');
+  const [username, setUsername] = useState(user?.username || '');
   const [imgurl, setImgurl] = useState(null);
   const dispatch = useDispatch();
   const [refresh, setrefresh]= useState(false);
@@ -55,23 +55,7 @@ const Profile = () => {
     getUserprofile();
   }, [refresh]);
   
-  useEffect(() => {
-      // Check if user._id is available
-  
-    const getUser = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/user/getSingle/${user._id}`);
-        setDescription(response.data.description);
-        setUsername(response.data.username);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  setTimeout(()=>{
-    getUser();
-  },500)
-  
-  }, [user?._id, refresh]); // Trigger effect when user._id or refresh changes
+ // Trigger effect when user._id or refresh changes
   
    
 
@@ -82,7 +66,11 @@ const Profile = () => {
         username,
       });
       setrefresh(!refresh);
-    
+      dispatch(updateUser({
+        username: response.data.user.username,
+        description: response.data.user.description,
+      }));
+      
     } catch (error) {
       console.error(error);
     }

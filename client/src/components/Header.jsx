@@ -3,15 +3,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../redux/authSlice";
 import { assets } from "../assets/assets";
 import logo2 from "../assets/logo2.png"
+import {persistor} from '../redux/store'
 
 const Header = () => {
   const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const path=location.pathname;
   const handleauth = () => {
     if (!isAuthenticated) navigate("/auth");
     else {
+      persistor.purge();
       dispatch(logout());
       navigate("/");
     }
@@ -36,19 +39,19 @@ const Header = () => {
       <nav className="flex gap-10 justify-center text-base ">
         <button
           onClick={handlechat}
-          className=" no-underline flex items-center p-1 outline-none hover:text-main"
+          className={`${path==='/chat' &&  `font-semibold text-main`} no-underline flex items-center p-1 outline-none hover:underline hover:text-main`}
         >
           Chat
         </button>
         <button
           onClick={()=>navigate('/blogs')}
-          className=" no-underline flex items-center p-1 outline-none  hover:text-main"
+          className={`${(path==='/blogs' || path.startsWith('/blog')) &&  `font-semibold text-main`} no-underline flex items-center p-1 outline-none hover:underline hover:text-main`}
         >
           Blogs
         </button>
         <button
           onClick={handleauth}
-          className="bg-main text-white items-center py-2 px-3  rounded  no-underline hover:bg-purple-800"
+          className=" w-20 text-center bg-main text-white border transition-transform duration-300 hover:scale-105  py-2 px-3 rounded-md font-medium no-underline "
         >
           {isAuthenticated ? "Logout" : "Login"}
         </button>
