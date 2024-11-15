@@ -1,13 +1,20 @@
+<<<<<<< HEAD
 import { Link } from 'react-router-dom'; // Import Link
 import Profile from "../Components/Profile";
+=======
+import Profile from "../components/Profile";
+>>>>>>> 2008f7ea4266995709472a1e6493d920e1263aa3
 import Blog from "../Components/Blog";
 import Blogsidebar from "../components/Blogsidebar";
 import { useEffect, useState } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import BlogSkeleton from "../constants/BlogsSkeleton";
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState([]); // Initialize as an empty array
-
+  const [blogs, setBlogs] = useState([]);
+  const {isAuthenticated}=useSelector((state)=>state.auth);
   useEffect(() => {
     const getBlogs = async () => {
       try {
@@ -21,24 +28,33 @@ const Blogs = () => {
   }, []);
 
   return (
-    <div className="h-[95vh] bg-gray-50 flex">
+    <div className="h-[90vh] bg-gray-50 flex">
       <Blogsidebar />
 
       {/* Blogs Area */}
       <div className="w-[60%] h-full p-2 flex flex-col scroll-auto scrollbar-none overflow-auto">
         <hr className="bg-gray-300 mt-3 border-t-gray-300" />
+<<<<<<< HEAD
         {blogs.length > 0 ? ( // Only map if blogs have loaded
           blogs.map((item) => (
             <Link to={`/blog/${item._id}`} key={item._id}> {/* Add Link */}
               <Blog blog={item} />
             </Link>
           ))
+=======
+        {blogs.length > 0 ? ( 
+          blogs.map((item) => (
+            <Link to={`/blog/${item._id}`} key={item._id} target="_blank">
+              <Blog blog={item} key={item._id} />
+            </Link>
+            ))
+>>>>>>> 2008f7ea4266995709472a1e6493d920e1263aa3
         ) : (
-          <p>Loading blogs...</p> // Fallback while blogs are loading
+          <BlogSkeleton/> 
         )}
       </div>
 
-      <div className="w-[20%]">
+      <div className={`w-[20%] ${!isAuthenticated? 'hidden':'block'} `}>
         <Profile />
       </div>
     </div>

@@ -11,7 +11,7 @@ const Blog = ({ blog }) => {
     <div className="w-full bg-white rounded-lg border mt-3 p-4 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] relative">
       <div className="absolute flex items-center right-4 top-4 gap-1 opacity-70 hover:opacity-100 transition-opacity">
         <IoEye className="w-5 h-5 text-gray-600" />
-        <p className="text-xs text-gray-500">350</p>
+        <p className="text-xs text-gray-500">{Math.ceil(blog.views/2)}</p>
       </div>
       
       <div className="flex items-center gap-3 mt-1">

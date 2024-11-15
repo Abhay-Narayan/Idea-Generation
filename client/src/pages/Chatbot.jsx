@@ -4,7 +4,7 @@ import { LuUser, LuPencil } from "react-icons/lu";
 import { BsRobot, BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-import Profile from "../Components/Profile";
+import Profile from "../components/Profile";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef, useCallback } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";

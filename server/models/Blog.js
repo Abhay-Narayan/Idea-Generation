@@ -6,6 +6,7 @@ const commentSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+
 const blogPostSchema = new Schema(
   {
     title: { type: String, required: true, trim: true },
