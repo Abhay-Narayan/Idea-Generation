@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState([]); // Initialize as an empty array
+  const [blogs, setBlogs] = useState([]);
+
+  const deleteBlogFromList = (blogId) => {
+    setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== blogId));
+  };
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -27,7 +31,9 @@ const Blogs = () => {
       <div className="w-[60%] h-full p-2 flex flex-col scroll-auto scrollbar-none overflow-auto">
         <hr className="bg-gray-300 mt-3 border-t-gray-300" />
         {blogs.length > 0 ? ( // Only map if blogs have loaded
-          blogs.map((item) => <Blog blog={item} key={item._id} />)
+          blogs.map((item) => (
+            <Blog blog={item} key={item._id} deleteBlog={deleteBlogFromList} />
+          ))
         ) : (
           <p>Loading blogs...</p> // Fallback while blogs are loading
         )}
