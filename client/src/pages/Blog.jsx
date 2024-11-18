@@ -5,6 +5,8 @@ import { formatDistanceToNow } from "date-fns";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../constants/ProtectedRoutes";
 import { assets } from "../assets/assets/";
+import { GoCopy } from "react-icons/go";
+import { TiTick } from "react-icons/ti";
 import {
   BiUpvote,
   BiDownvote,
@@ -38,6 +40,10 @@ const Blog = () => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedDescription, setEditedDescription] = useState("");
+  const [isSharePopupVisible, setSharePopupVisible] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const sharePopupRef = useRef();
   const popupRef = useRef(null);
   const navigate = useNavigate();
 
@@ -74,6 +80,9 @@ const Blog = () => {
     if (blog?.comments) {
       setComments(blog.comments);
     }
+    if (blog?.title) {
+      setEditedTitle(blog.title);
+    }
   }, [blog]);
 
   useEffect(() => {
@@ -82,13 +91,6 @@ const Blog = () => {
       setDownvoted(downvotes?.includes(user._id));
     }
   }, [upvotes, downvotes, user]);
-
-  const handleEditClick = () => {
-    setEditPopupVisible(true);
-  };
-  const handleCloseEditPopup = () => {
-    setEditPopupVisible(false);
-  };
 
   // Handle blog update (edit)
   const handleBlogEdit = async () => {
@@ -123,6 +125,31 @@ const Blog = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        sharePopupRef.current &&
+        !sharePopupRef.current.contains(event.target)
+      ) {
+        setSharePopupVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(`${window.location.origin}/blog/${id}`)
+      .then(() => {
+        setIsClicked(true);
+        setPopupVisible(true);
+        setTimeout(() => setIsClicked(false), 2000);
+      });
+  };
+
   const handleBlogDelete = async () => {
     try {
       const response = await axiosInstance.delete(
@@ -130,7 +157,6 @@ const Blog = () => {
       );
       toast.success("Blog Deleted!");
       navigate("/blogs");
-      toast.success("Blog Deleted!");
     } catch (error) {
       toast.error("Failed to delete the blog.");
     }
@@ -247,6 +273,7 @@ const Blog = () => {
       }
     } catch (error) {}
   };
+
   return (
     <div className="flex h-[90vh] ">
       <Blogsidebar />
@@ -360,9 +387,51 @@ const Blog = () => {
               </p>
             </div>
 
-            <div className="cursor-pointer transition-all duration-300 hover:scale-105 flex items-center gap-1 bg-main p-2 rounded-full shadow-sm hover:shadow-md">
-              <FaShare className="w-5 h-5 text-white" />
-              <p className="font-medium text-white">Share</p>
+            <div className="relative">
+              <div
+                className="flex items-center gap-1 bg-main p-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer"
+                onClick={() => setSharePopupVisible(!isSharePopupVisible)}
+              >
+                <FaShare className="w-5 h-5 text-white" />
+                <p className="font-medium text-white">Share</p>
+              </div>
+
+              {isSharePopupVisible && (
+                <div
+                  ref={sharePopupRef}
+                  className="absolute top-full mt-1 w-80 bg-white border border-gray-300 shadow-lg rounded-md p-3 z-10 flex items-center"
+                >
+                  <input
+                    type="text"
+                    readOnly
+                    value={`${window.location.origin}/blog/${id}`}
+                    className="w-full px-3 py-2 text-gray-700 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-main"
+                  />
+                  <div className="relative">
+                    <button
+                      className="ml-2 p-2 text-gray-700 rounded-md transition relative"
+                      onClick={copyToClipboard}
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+                    >
+                      {isClicked ? (
+                        <span className="text-green-500">
+                          <TiTick className=" text-xl" />
+                        </span>
+                      ) : (
+                        <span>
+                          <GoCopy />
+                        </span>
+                      )}
+                    </button>
+                    {isHovering && (
+                      <div className="absolute top-[-50px] left-[-0px] bg-gray-800 text-white text-sm px-2 py-1 rounded shadow-lg">
+                        {isClicked ? "URL Copied!" : "Copy URL"}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -421,7 +490,7 @@ const Blog = () => {
                   type="text"
                   className="border border-gray-300 p-2 w-full rounded-lg outline-none mb-2"
                   value={editedTitle}
-                  onChange={setEditedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
                   placeholder="Enter your blog title here..."
                 />
 
