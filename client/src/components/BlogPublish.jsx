@@ -48,14 +48,18 @@ const BlogPublish = ({ chatId }) => {
         setBlogDescription(markdownContent); // Store raw markdown
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log(error);
+        toast.error(
+          "There was an error fetching the data. Please try again later."
+        );
       }
     }
   };
 
   const handlePublish = async () => {
     if (!blogTitle) toast.error("Title cannot be empty");
-    if(!blogDescription)toast.error('Description cannot be empty');
+    if (!blogDescription) toast.error("Description cannot be empty");
     try {
       const response = await axiosInstance.post("/blog", {
         title: blogTitle,
@@ -86,12 +90,14 @@ const BlogPublish = ({ chatId }) => {
   };
 
   const previewBlog = {
-    username:user.username,
+    username: user.username,
     title: blogTitle || "Smart Grocery Shopping Assistant",
-    description: blogDescription || "An idea to develop a chatbot that helps users create shopping lists, suggest recipes, and provide nutritional insights based on available items or dietary preferences.",
+    description:
+      blogDescription ||
+      "An idea to develop a chatbot that helps users create shopping lists, suggest recipes, and provide nutritional insights based on available items or dietary preferences.",
     author: user.username || "Author Name",
     image: assets.profile_pic,
-    createdAt:"2024-10-20T12:18:37.991Z"
+    createdAt: "2024-10-20T12:18:37.991Z",
   };
 
   return (

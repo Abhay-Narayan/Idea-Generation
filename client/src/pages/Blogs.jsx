@@ -9,7 +9,7 @@ import BlogSkeleton from "../constants/BlogsSkeleton";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const {isAuthenticated}=useSelector((state)=>state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   useEffect(() => {
     const getBlogs = async () => {
       try {
@@ -29,18 +29,18 @@ const Blogs = () => {
       {/* Blogs Area */}
       <div className="w-[60%] h-full p-2 flex flex-col scroll-auto scrollbar-none overflow-auto">
         <hr className="bg-gray-300 mt-3 border-t-gray-300" />
-        {blogs.length > 0 ? ( 
+        {blogs.length > 0 ? (
           blogs.map((item) => (
             <Link to={`/blog/${item._id}`} key={item._id} target="_blank">
               <Blog blog={item} key={item._id} />
             </Link>
-            ))
+          ))
         ) : (
-          <BlogSkeleton/> 
+          <BlogSkeleton />
         )}
       </div>
 
-      <div className={`w-[20%] ${!isAuthenticated? 'hidden':'block'} `}>
+      <div className={`w-[20%] ${!isAuthenticated ? "hidden" : "block"} `}>
         <Profile />
       </div>
     </div>
