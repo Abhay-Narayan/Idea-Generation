@@ -289,10 +289,13 @@ const Blog = () => {
           </div>
 
           <div className="absolute top-14 right-5">
-            <BsThreeDots
+            {(blog.author._id===user._id) &&
+              <BsThreeDots
               className="w-10 h-10 p-2 rotate-90 text-gray-600 rounded-full cursor-pointer hover:text-gray-800 hover:bg-gray-200 transition-all"
               onClick={() => setPopupVisible((prev) => !prev)}
             />
+            }
+            
             {popupVisible && (
               <div
                 ref={popupRef}

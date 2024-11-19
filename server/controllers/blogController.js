@@ -49,7 +49,7 @@ blogController.get('/getUserBlogs/:id',async(req,res)=>{
 blogController.get("/find/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)
-      .populate("author", "username profilePic")
+      .populate("author", "_id username profilePic")
       .populate("comments.user","_id username profilePic");
 
     if (!blog) {
@@ -68,6 +68,7 @@ blogController.get("/find/:id", async (req, res) => {
       ...blog._doc,
       author: blog.author
         ? {
+            _id: blog.author._id,
             username: blog.author.username,
             profilePic: formatProfilePic(blog.author.profilePic), // Format author profilePic to base64
           }
