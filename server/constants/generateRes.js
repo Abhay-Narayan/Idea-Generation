@@ -5,7 +5,7 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-const generateResponse = async (userhistory, message) => {
+export const generateResponse = async (userhistory, message) => {
     // Ensure only role and text are included in history entries
     const formattedHistory = userhistory.map(entry => ({
         role: entry.role,
@@ -17,5 +17,9 @@ const generateResponse = async (userhistory, message) => {
     return result.response.text();
 }
 
+export const generateSingle=async(prompt)=>{
+    const ans=await model.generateContent(prompt);
+    const result= ans.response.text();
+    return result;
+}
 
-export default generateResponse;

@@ -4,7 +4,7 @@ import verifyToken from "../middlewares/VerifyToken.js";
 import dotenv from "dotenv";
 import Chat from "../models/Chat.js";
 import UserChat from "../models/Userchats.js";
-import generateResponse from "../constants/generateRes.js";
+import {generateResponse} from "../constants/generateRes.js";
 dotenv.config();
 
 const chatController = express.Router();

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from "react";
 import Blogsidebar from "../components/Blogsidebar";
 import Profile from "../components/Profile";
@@ -34,6 +35,7 @@ const Blog = () => {
   const [upvoted, setUpvoted] = useState(false);
   const [downvotes, setDownvotes] = useState([]);
   const [comments, setComments] = useState([]);
+  const [tags,setTags]=useState([]);
   const [downvoted, setDownvoted] = useState(false);
   const [timeAgo, setTimeAgo] = useState("");
   const [popupVisible, setPopupVisible] = useState(false);
@@ -82,6 +84,9 @@ const Blog = () => {
     }
     if (blog?.title) {
       setEditedTitle(blog.title);
+    }
+    if(blog?.tags){
+      setTags(blog.tags);
     }
   }, [blog]);
 
@@ -271,7 +276,9 @@ const Blog = () => {
         );
         toast.success("Comment Edited");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error,'Error commenting');
+    }
   };
 
   return (
@@ -348,7 +355,13 @@ const Blog = () => {
               dangerouslySetInnerHTML={{ __html: blog.description }}
             ></div>
           </div>
-
+          <div className="flex gap-2 items-center">
+            {tags.map((tag, i)=>(
+              <div className="p-2 font-medium shadow-md transition-all duration-300 hover:scale-105 rounded-full bg-main cursor-pointer text-white" key={i}>
+                {tag}
+              </div>
+            ))}
+          </div>
           <div className="flex items-center text-sm mt-4 gap-4">
             <div className="flex items-center gap-1 bg-gray-200 p-2 rounded-full shadow-sm">
               {!upvoted ? (

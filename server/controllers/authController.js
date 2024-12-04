@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateSingle } from "../constants/generateRes.js";
 const authController = express.Router();
 
 authController.post("/register", async (req, res) => {

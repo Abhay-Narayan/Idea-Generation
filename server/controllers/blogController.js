@@ -2,6 +2,7 @@ import express from "express";
 import Blog from "../models/Blog.js";
 import verifyToken from "../middlewares/VerifyToken.js";
 import User from '../models/User.js'
+import { generateSingle } from "../constants/generateRes.js";
 
 const blogController = express.Router();
 
@@ -96,16 +97,35 @@ blogController.get("/find/:id", async (req, res) => {
   }
 });
 
-
-
 blogController.post("/", verifyToken, async (req, res) => {
   try {
-    const blog = await Blog.create({ ...req.body, author: req.user.id });
+    const { title, description } = req.body;
+    const text = `${title} ${description}`;
+
+    const prompt = `Generate 5 tags based on the text I am providing you. Just return the tags only and don't give any other response—just space-separated tags in normal text. This is the text: "${text}". Also, generate it in the form of a plain string in a single line without using any markdown language or newline characters. Make sure you generate only one word for each tag, and tags should not be more than 5. If a tag has spaces or is two words, combine them into one single word(could be synonym) without spaces.`;
+
+    let tag = await generateSingle(prompt);
+    const tagsArray = tag.trim().replace(/\n/g, "").split(/\s+/);
+
+    // Add spacing for each tag based on capital letters
+    const spacedTags = tagsArray.map((tag) =>
+      tag.replace(/([a-z])([A-Z])/g, "$1 $2") // Insert a space before each capital letter
+    );
+
+    const blog = await Blog.create({
+      ...req.body,
+      author: req.user.id,
+      tags: spacedTags,
+    });
+
     return res.status(201).json(blog);
   } catch (error) {
-    res.status(500).json({ message: "Failed to retrieve blogs", error });
+    return res
+      .status(500)
+      .json({ message: "Failed to create blog", error: error.message });
   }
 });
+
 
 blogController.put("/upvote/:id", verifyToken, async (req, res) => {
   try {
@@ -233,8 +253,6 @@ blogController.post("/addComment/:id", verifyToken, async (req, res) => {
     return res.status(500).json({ message: "Failed to add comment", error });
   }
 });
-
-
 
 blogController.delete(
   "/deleteComment/:blogId/:comId",
