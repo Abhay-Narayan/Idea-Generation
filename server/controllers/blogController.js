@@ -12,6 +12,22 @@ blogController.get("/getAll", async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("author", "username profilePic");
 
+    // const formattedBlogs = blogs.map((blog) => {
+    //   const { author } = blog;
+    //   return {
+    //     ...blog._doc,
+    //     author: author
+    //       ? {
+    //           username: author.username,
+    //           profilePic: author.profilePic?.data
+    //             ? `data:${
+    //                 author.profilePic.contentType
+    //               };base64,${author.profilePic.data.toString("base64")}`
+    //             : null, // Handle cases where profilePic is missing
+    //         }
+    //       : null,
+    //   };
+    // });
     const formattedBlogs = blogs.map((blog) => {
       const { author } = blog;
       return {
@@ -23,7 +39,7 @@ blogController.get("/getAll", async (req, res) => {
                 ? `data:${
                     author.profilePic.contentType
                   };base64,${author.profilePic.data.toString("base64")}`
-                : null, // Handle cases where profilePic is missing
+                : null,
             }
           : null,
       };
