@@ -35,7 +35,7 @@ const Blog = () => {
   const [upvoted, setUpvoted] = useState(false);
   const [downvotes, setDownvotes] = useState([]);
   const [comments, setComments] = useState([]);
-  const [tags,setTags]=useState([]);
+  const [tags, setTags] = useState([]);
   const [downvoted, setDownvoted] = useState(false);
   const [timeAgo, setTimeAgo] = useState("");
   const [popupVisible, setPopupVisible] = useState(false);
@@ -85,7 +85,7 @@ const Blog = () => {
     if (blog?.title) {
       setEditedTitle(blog.title);
     }
-    if(blog?.tags){
+    if (blog?.tags) {
       setTags(blog.tags);
     }
   }, [blog]);
@@ -277,7 +277,7 @@ const Blog = () => {
         toast.success("Comment Edited");
       }
     } catch (error) {
-      console.log(error,'Error commenting');
+      console.log(error, "Error commenting");
     }
   };
 
@@ -296,13 +296,13 @@ const Blog = () => {
           </div>
 
           <div className="absolute top-14 right-5">
-            {(blog.author._id===user._id) &&
+            {blog.author._id === user._id && (
               <BsThreeDots
-              className="w-10 h-10 p-2 rotate-90 text-gray-600 rounded-full cursor-pointer hover:text-gray-800 hover:bg-gray-200 transition-all"
-              onClick={() => setPopupVisible((prev) => !prev)}
-            />
-            }
-            
+                className="w-10 h-10 p-2 rotate-90 text-gray-600 rounded-full cursor-pointer hover:text-gray-800 hover:bg-gray-200 transition-all"
+                onClick={() => setPopupVisible((prev) => !prev)}
+              />
+            )}
+
             {popupVisible && (
               <div
                 ref={popupRef}
@@ -355,9 +355,12 @@ const Blog = () => {
               dangerouslySetInnerHTML={{ __html: blog.description }}
             ></div>
           </div>
-          <div className="flex gap-2 items-center">
-            {tags.map((tag, i)=>(
-              <div className="p-2 font-medium shadow-md transition-all duration-300 hover:scale-105 rounded-full bg-main cursor-pointer text-white" key={i}>
+          <div className="flex mx-10 gap-2 items-center justify-center flex-wrap">
+            {tags.map((tag, i) => (
+              <div
+                className="inline-block p-3 font-medium shadow-md transition-all duration-300 hover:scale-105 rounded-full bg-main cursor-pointer text-white"
+                key={i}
+              >
                 {tag}
               </div>
             ))}
