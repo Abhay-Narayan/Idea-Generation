@@ -1,5 +1,5 @@
 import Profile from "../components/Profile";
-import Blog from "../Components/Blog";
+import Blog from "../components/Blog";
 import Blogsidebar from "../components/Blogsidebar";
 import { useEffect, useState } from "react";
 import axiosInstance from "../constants/ProtectedRoutes";
