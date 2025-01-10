@@ -1,7 +1,7 @@
 import express from "express";
 import Blog from "../models/Blog.js";
 import verifyToken from "../middlewares/VerifyToken.js";
-import User from '../models/User.js'
+import User from "../models/User.js";
 import { generateSingle } from "../constants/generateRes.js";
 
 const blogController = express.Router();
@@ -12,8 +12,7 @@ blogController.get("/getAll", async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("author", "username profilePic");
 
-
-    const formattedBlogs = blogs.map(blog => {
+    const formattedBlogs = blogs.map((blog) => {
       const { author } = blog;
       return {
         ...blog._doc,
@@ -21,7 +20,9 @@ blogController.get("/getAll", async (req, res) => {
           ? {
               username: author.username,
               profilePic: author.profilePic?.data
-                ? `data:${author.profilePic.contentType};base64,${author.profilePic.data.toString("base64")}`
+                ? `data:${
+                    author.profilePic.contentType
+                  };base64,${author.profilePic.data.toString("base64")}`
                 : null, // Handle cases where profilePic is missing
             }
           : null,
@@ -35,23 +36,21 @@ blogController.get("/getAll", async (req, res) => {
   }
 });
 
-
-
-blogController.get('/getUserBlogs/:id',async(req,res)=>{
+blogController.get("/getUserBlogs/:id", async (req, res) => {
   try {
-    const userId=req.params.id;
-    const blogs= await Blog.find({author:userId}).select('title');;
+    const userId = req.params.id;
+    const blogs = await Blog.find({ author: userId }).select("title");
     return res.status(200).json(blogs);
   } catch (error) {
-    return res.status(500).json({message:'Failed to get blogs', error});
+    return res.status(500).json({ message: "Failed to get blogs", error });
   }
-})
+});
 
 blogController.get("/find/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)
       .populate("author", "_id username profilePic")
-      .populate("comments.user","_id username profilePic");
+      .populate("comments.user", "_id username profilePic");
 
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
@@ -60,7 +59,9 @@ blogController.get("/find/:id", async (req, res) => {
     // Convert author's profilePic to base64 format
     const formatProfilePic = (profilePic) => {
       if (profilePic && profilePic.data) {
-        return `data:${profilePic.contentType};base64,${profilePic.data.toString("base64")}`;
+        return `data:${
+          profilePic.contentType
+        };base64,${profilePic.data.toString("base64")}`;
       }
       return null; // Return null if no profile picture
     };
@@ -74,16 +75,18 @@ blogController.get("/find/:id", async (req, res) => {
             profilePic: formatProfilePic(blog.author.profilePic), // Format author profilePic to base64
           }
         : null,
-      comments: blog.comments.map((comment) => ({
-        ...comment._doc,
-        user: comment.user
-          ? {
-              _id:comment.user._id,
-              username: comment.user.username,
-              profilePic: formatProfilePic(comment.user.profilePic), // Format comment user's profilePic to base64
-            }
-          : null,
-      })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      comments: blog.comments
+        .map((comment) => ({
+          ...comment._doc,
+          user: comment.user
+            ? {
+                _id: comment.user._id,
+                username: comment.user.username,
+                profilePic: formatProfilePic(comment.user.profilePic), // Format comment user's profilePic to base64
+              }
+            : null,
+        }))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     };
 
     // Increment the view count
@@ -102,14 +105,14 @@ blogController.post("/", verifyToken, async (req, res) => {
     const { title, description } = req.body;
     const text = `${title} ${description}`;
 
-    const prompt = `Generate 5 tags based on the text I am providing you. Just return the tags only and don't give any other response—just space-separated tags in normal text. This is the text: "${text}". Also, generate it in the form of a plain string in a single line without using any markdown language or newline characters. Make sure you generate only one word for each tag, and tags should not be more than 5. If a tag has spaces or is two words, combine them into one single word(could be synonym) without spaces.`;
+    const prompt = `Generate 5 tags based on the text I am providing you. Just return the tags only and don't give any other response—just space-separated tags in normal text. This is the text: "${text}". Also, generate it in the form of a plain string in a single line without using any markdown language or newline characters. Make sure you generate only one word for each tag, and tags should not be more than 5. If a tag has spaces or is two words, combine them into one single word(could be synonym) without spaces. Please ensure the tags are as small as possible`;
 
     let tag = await generateSingle(prompt);
     const tagsArray = tag.trim().replace(/\n/g, "").split(/\s+/);
 
     // Add spacing for each tag based on capital letters
-    const spacedTags = tagsArray.map((tag) =>
-      tag.replace(/([a-z])([A-Z])/g, "$1 $2") // Insert a space before each capital letter
+    const spacedTags = tagsArray.map(
+      (tag) => tag.replace(/([a-z])([A-Z])/g, "$1 $2") // Insert a space before each capital letter
     );
 
     const blog = await Blog.create({
@@ -126,20 +129,23 @@ blogController.post("/", verifyToken, async (req, res) => {
   }
 });
 
-
 blogController.put("/upvote/:id", verifyToken, async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
     if (blog.upvotes.includes(req.user.id)) {
       blog.upvotes = blog.upvotes.filter(
         (userID) => userID.toString() !== req.user.id.toString()
-        );
+      );
       await blog.save();
-      return res.status(201).json({ msg: "Removed the upvote", blog: blog.upvotes });
+      return res
+        .status(201)
+        .json({ msg: "Removed the upvote", blog: blog.upvotes });
     } else {
       blog.upvotes.push(req.user.id);
       await blog.save();
-      return res.status(201).json({ msg: "Upvoted successfully",blog: blog.upvotes });
+      return res
+        .status(201)
+        .json({ msg: "Upvoted successfully", blog: blog.upvotes });
     }
   } catch (error) {
     res.status(500).json({ message: "Failed to retrieve blogs", error });
@@ -154,11 +160,15 @@ blogController.put("/downvote/:id", verifyToken, async (req, res) => {
         (userID) => userID.toString() !== req.user.id.toString()
       );
       await blog.save();
-      return res.status(201).json({ msg: "Removed the downvote",blog: blog.downvotes });
+      return res
+        .status(201)
+        .json({ msg: "Removed the downvote", blog: blog.downvotes });
     } else {
       blog.downvotes.push(req.user.id);
       await blog.save();
-      return res.status(201).json({ msg: "downvoted successfully", blog: blog.downvotes });
+      return res
+        .status(201)
+        .json({ msg: "downvoted successfully", blog: blog.downvotes });
     }
   } catch (error) {
     res.status(500).json({ message: "Failed to retrieve blogs", error });
@@ -222,27 +232,33 @@ blogController.post("/addComment/:id", verifyToken, async (req, res) => {
     await blog.save();
 
     // Re-fetch the blog with populated comments
-    const updatedBlog = await Blog.findById(req.params.id)
-      .populate("comments.user", "_id username profilePic");
+    const updatedBlog = await Blog.findById(req.params.id).populate(
+      "comments.user",
+      "_id username profilePic"
+    );
 
     // Convert profile pictures to base64 if needed
     const formatProfilePic = (profilePic) => {
       if (profilePic && profilePic.data) {
-        return `data:${profilePic.contentType};base64,${profilePic.data.toString("base64")}`;
+        return `data:${
+          profilePic.contentType
+        };base64,${profilePic.data.toString("base64")}`;
       }
       return null;
     };
 
-    const formattedComments = updatedBlog.comments.map((comment) => ({
-      ...comment._doc,
-      user: comment.user
-        ? {
-            _id: comment.user._id,
-            username: comment.user.username,
-            profilePic: formatProfilePic(comment.user.profilePic),
-          }
-        : null,
-    })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));;
+    const formattedComments = updatedBlog.comments
+      .map((comment) => ({
+        ...comment._doc,
+        user: comment.user
+          ? {
+              _id: comment.user._id,
+              username: comment.user.username,
+              profilePic: formatProfilePic(comment.user.profilePic),
+            }
+          : null,
+      }))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return res.status(200).json({
       message: "Comment added successfully",
@@ -295,11 +311,9 @@ blogController.put(
       }
       comment.text = req.body.text;
       await blog.save();
-      return res.status(200).json({ msg: "comment edited successfully"});
+      return res.status(200).json({ msg: "comment edited successfully" });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "Failed to edit comment", error });
+      return res.status(500).json({ message: "Failed to edit comment", error });
     }
   }
 );
